@@ -2,7 +2,7 @@
  * Program that determines if a pixel is inside a triangle of a
  * set size based on the given vertices and the location of the
  * center of the pixel.
- 
+ *
  * @file geometry.c
  * @author Jimmy Nguyen (jnguyen6)
  */
