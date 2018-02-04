@@ -18,6 +18,8 @@
 #define IMAGE_FORMAT "P3"
 /** The maximum line length. */
 #define MAX_LENGTH 70
+/** The number of spaces between each RGB value. */
+#define NUM_SPACES 1
 
 /**
  * Prints a header for the text ppm file. The header consists of the
@@ -29,12 +31,9 @@
  */
 void printHeader( int width, int height )
 {
-    printf("%s", IMAGE_FORMAT);
-    printf("\n");
-    printf("%d %d", width, height);
-    printf("\n");
-    printf("%d", CMAX);
-    
+    printf("P3\n");
+    printf("%d %d\n", width, height);
+    printf("%d\n", CMAX);
 }
 
 /**
@@ -49,15 +48,26 @@ void printValue( unsigned char c )
 {
     unsigned char x = c;
     int numDigits = 0;
+    if ( x == 0 ) {
+        numDigits++;
+    }
     while ( x != 0 ) {
         numDigits++;
         x = x / 10;
     }
     static int count = 0;
-    if ( numDigits + count == 70 ) {
+    if ( count + numDigits + NUM_SPACES > 70 ) {
         count = 0;
-        putchar('\n');
+        printf("\n");
     }
-    putchar(c);
-    putchar(' ');
+    if ( count == 0 ) {
+        printf("%u", c);
+    } else {
+        printf(" ");
+        printf("%u", c);
+        count++; //This is to count for the number of spaces first, which is 1
+    }
+    for ( int i = 0; i < numDigits; i++ ) {
+        count++;
+    }
 }

@@ -27,12 +27,9 @@
  */
 void printHeader( int width, int height )
 {
-    printf("%s", IMAGE_FORMAT);
-    printf("\n");
-    printf("%d %d", width, height);
-    printf("\n");
-    printf("%d", CMAX);
-    
+    printf("P6\n");
+    printf("%d %d\n", width, height);
+    printf("%d\n", CMAX);
 }
 
 /**

@@ -34,11 +34,30 @@ bool leftOf( double xa, double ya, double xb, double yb, double x, double y )
 {
     //Let's use xa and ya as the starting point to find the components
     //for the vector.
-    double vectAX = xb - xa;
-    double vectAY = yb - ya;
-    double vectBX = x - xa;
-    double vectBY = y - yb;
-    return vectAX * vectBY - vectAY * vectBX < 0;
+    double vectAX, vectAY, vectBX, vectBY;
+    if ( xa < 0 ) {
+        xa = -xa;
+        vectAX = xb + xa;
+        vectBX = x + xa;
+    } else {
+        vectAX = xb - xa;
+        vectBX = x - xa;
+    }
+    if ( ya < 0 ) {
+        ya = -ya;
+        vectAY = yb + ya;
+        vectBY = y + ya;
+    } else {
+        vectAY = yb - ya;
+        vectBY = y - ya;
+    }
+    
+    if ( vectAY * vectBX < 0 ) {
+        vectAY = -vectAY; //For this case, just make one vector component negative
+        return vectAX * vectBY + vectAY * vectBX <= 0;
+    } else {
+        return vectAX * vectBY - vectAY * vectBX <= 0;
+    }
 }
 
 /**
@@ -58,11 +77,11 @@ bool leftOf( double xa, double ya, double xb, double yb, double x, double y )
 bool inside( double x1, double y1, double x2, double y2, double x3, double y3,
              double x, double y )
 {
-    if ( !leftOf(x1, y1, x2, y2, x, y ) {
+    if ( !leftOf(x1, y1, x2, y2, x, y )) {
         return false;
-    } else if ( !leftOf(x2, y2, x3, y3, x, y ) {
+    } else if ( !leftOf(x2, y2, x3, y3, x, y )) {
         return false;
-    } else if ( !leftOf(x3, y3, x1, y1, x, y ) {
+    } else if ( !leftOf(x3, y3, x1, y1, x, y )) {
         return false;
     } else {
         return true;

@@ -15,7 +15,7 @@
  #include "geometry.h"
  #include <stdio.h>
  #include <stdbool.h>
- #include <stdlib.h
+ #include <stdlib.h>
  
  /** Value used to help find the center point of the pixel. */
  #define HALF_STEP 0.5
@@ -28,7 +28,7 @@
   *
   * @return the program's exit status
   */
-void main( )
+int main( )
 {
     int width, height;
     double x1, y1, x2, y2, x3, y3;
@@ -38,19 +38,19 @@ void main( )
     if ( matches != 2 || width < 0 || height < 0) {
         return EXIT_FAILURE;
     }
-    matches = scanf( "%lf lf lf lf lf lf", &x1, &y1, &x2, &y2, &x3, &y3 );
+    matches = scanf( "%lf %lf %lf %lf %lf %lf", &x1, &y1, &x2, &y2, &x3, &y3 );
     if ( matches != 6 ) {
         return EXIT_FAILURE;
     }
     matches = scanf("%d %d %d", &red, &green, &blue);
     if ( matches != 3 || red < 0 || red > CMAX || green < 0 || green > CMAX
-          || blue < 0 || blue > 0) {
+          || blue < 0 || blue > CMAX) {
         return EXIT_FAILURE;
     }
     printHeader( width, height );
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
-            if ( inside( x1, y1, x2, y2, x3, y3, j + HALF_STEP, i + HALF_STEP ) {
+            if ( inside( x1, y1, x2, y2, x3, y3, j + HALF_STEP, i + HALF_STEP )) {
                 printValue(red);
                 printValue(green);
                 printValue(blue);
@@ -61,6 +61,7 @@ void main( )
             }
         }
     }
+    printf("\n");
     return EXIT_SUCCESS;
     
 }

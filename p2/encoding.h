@@ -4,6 +4,7 @@
  *
  * @file encoding.h
  * @author Jimmy Nguyen (jnguyen6)
+ */
 
 /** Maximum color component value. */
 #define CMAX 255
