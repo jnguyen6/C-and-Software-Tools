@@ -14,8 +14,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-/** The binary image format. */
-#define IMAGE_FORMAT "P6"
+/** The binary image format number. */
+#define IMAGE_FORMAT_NUMBER 6
 
 /**
  * Prints a header for the binary ppm file. The header consists of the
@@ -27,7 +27,7 @@
  */
 void printHeader( int width, int height )
 {
-    printf("P6\n");
+    printf("P%d\n", IMAGE_FORMAT_NUMBER);
     printf("%d %d\n", width, height);
     printf("%d\n", CMAX);
 }

@@ -48,8 +48,8 @@ int main( )
         return EXIT_FAILURE;
     }
     printHeader( width, height );
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
+    for ( int i = 0; i < height; i++ ) {
+        for ( int j = 0; j < width; j++ ) {
             if ( inside( x1, y1, x2, y2, x3, y3, j + HALF_STEP, i + HALF_STEP )) {
                 printValue(red);
                 printValue(green);

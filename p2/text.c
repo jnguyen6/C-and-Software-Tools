@@ -14,12 +14,14 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-/** The text image format. */
-#define IMAGE_FORMAT "P3"
+/** The text image format number. */
+#define IMAGE_FORMAT_NUMBER 3
 /** The maximum line length. */
 #define MAX_LENGTH 70
 /** The number of spaces between each RGB value. */
 #define NUM_SPACES 1
+/** The number used to move each digit in an integer. */
+#define DIVISOR 10
 
 /**
  * Prints a header for the text ppm file. The header consists of the
@@ -31,7 +33,7 @@
  */
 void printHeader( int width, int height )
 {
-    printf("P3\n");
+    printf("P%d\n", IMAGE_FORMAT_NUMBER);
     printf("%d %d\n", width, height);
     printf("%d\n", CMAX);
 }
@@ -53,10 +55,10 @@ void printValue( unsigned char c )
     }
     while ( x != 0 ) {
         numDigits++;
-        x = x / 10;
+        x = x / DIVISOR;
     }
     static int count = 0;
-    if ( count + numDigits + NUM_SPACES > 70 ) {
+    if ( count + numDigits + NUM_SPACES > MAX_LENGTH ) {
         count = 0;
         printf("\n");
     }
