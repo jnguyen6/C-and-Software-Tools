@@ -20,7 +20,7 @@
 #define MAX_LENGTH 70
 /** The number of spaces between each RGB value. */
 #define NUM_SPACES 1
-/** The number used to move each digit in an integer. */
+/** The number used to iterate through each digit in an integer. */
 #define DIVISOR 10
 
 /**
@@ -33,9 +33,9 @@
  */
 void printHeader( int width, int height )
 {
-    printf("P%d\n", IMAGE_FORMAT_NUMBER);
-    printf("%d %d\n", width, height);
-    printf("%d\n", CMAX);
+    printf( "P%d\n", IMAGE_FORMAT_NUMBER );
+    printf( "%d %d\n", width, height );
+    printf( "%d\n", CMAX );
 }
 
 /**
@@ -60,14 +60,14 @@ void printValue( unsigned char c )
     static int count = 0;
     if ( count + numDigits + NUM_SPACES > MAX_LENGTH ) {
         count = 0;
-        printf("\n");
+        printf( "\n" );
     }
     if ( count == 0 ) {
-        printf("%u", c);
+        printf( "%u", c );
     } else {
-        printf(" ");
-        printf("%u", c);
-        count++; //This is to count for the number of spaces first, which is 1
+        printf( " " );
+        printf( "%u", c );
+        count++;
     }
     for ( int i = 0; i < numDigits; i++ ) {
         count++;

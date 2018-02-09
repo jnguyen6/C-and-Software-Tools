@@ -1,20 +1,21 @@
 /**
- * Program that determines if a pixel is inside a triangle of a
- * set size based on the given vertices and the location of the
- * center of the pixel.
+ * The header file that provides prototypes for other programs to
+ * use to help determine if a pixel is inside a triangle of a
+ * set size based on the given vertices and the x- and y- coordinates
+ * of the specific location in a pixel.
  *
- * @file geometry.c
+ * @file geometry.h
  * @author Jimmy Nguyen (jnguyen6)
  */
 
 #include <stdbool.h>
 
-/** For the extra credit, the number of horizontal and vertical super-samples
-    per pixel.  This is a preprocessor macro with conditional compilation
-    code around it.  That lets us replace this value on the gcc line, if
-    we want to.  This constant definition should probably be in triangle.c
-    rather than in this header, but putting it here lets me give it to you
-    with the starter. */
+/** 
+ * Preprocessor macro with conditional compilation code that
+ * represents the number of horizontal and vertical super-samples
+ * for each pixel. The constant definition is set to 1 by default,
+ * but can be adjusted through recompiling.
+ */
 #ifndef SSAMP
 #define SSAMP 1
 #endif
@@ -23,11 +24,11 @@
   * Determines if the pixel is inside the triangle through the left
   * turn test, which involves the use of the cross product. First,
   * the function finds the vector between two consecutive vertices
-  * and another vector between the first vertex and the center of
-  * the pixel. If the sign of the cross product of the two vectors
-  * is negative, then this indicates that the pixel is in the triangle,
-  * so the function returns true. Otherwise, the function returns
-  * false.
+  * and another vector between the first vertex and the x- and y-
+  * coordinates of the specific location in a pixel. If the sign of
+  * the cross product of the two vectors is negative, then this 
+  * indicates that the pixel is in the triangle, so the function 
+  * returns true. Otherwise, the function returns false.
   *
   * @param xa the x-coordinate of the first vertex of the triangle
   * @param ya the y-coordinate of the first vertex of the triangle
@@ -50,8 +51,8 @@ bool leftOf( double xa, double ya, double xb, double yb,
  * @param y2 the y-coordinate of the second vertex of the triangle
  * @param x3 the x-coordinate of the third vertex of the triangle
  * @param y3 the y-coordinate of the third vertex of the triangle
- * @param x the x-coordinate of the center of the pixel
- * @param y the y-coordinate of the center of the pixel
+ * @param x the x-coordinate of the specific location of the pixel
+ * @param y the y-coordinate of the specific location of the pixel
  * @return true if the pixel is inside the triangle or false otherwise
  */
 bool inside( double x1, double y1, double x2, double y2,

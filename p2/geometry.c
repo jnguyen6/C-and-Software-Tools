@@ -1,7 +1,7 @@
 /**
  * Program that determines if a pixel is inside a triangle of a
- * set size based on the given vertices and the location of the
- * center of the pixel.
+ * set size based on the given vertices and the x- and y- coordinates
+ * of the specific location in a pixel.
  *
  * @file geometry.c
  * @author Jimmy Nguyen (jnguyen6)
@@ -15,20 +15,19 @@
   * Determines if the pixel is inside the triangle through the left
   * turn test, which involves the use of the cross product. First,
   * the function finds the vector between two consecutive vertices
-  * and another vector between the first vertex and the center of
-  * the pixel. If the sign of the cross product of the two vectors
-  * is negative, then this indicates that the pixel is in the triangle,
-  * so the function returns true. Otherwise, the function returns
-  * false.
+  * and another vector between the first vertex and the x- and y-
+  * coordinates of the specific location in a pixel. If the sign of
+  * the cross product of the two vectors is negative, then this 
+  * indicates that the pixel is in the triangle, so the function 
+  * returns true. Otherwise, the function returns false.
   *
   * @param xa the x-coordinate of the first vertex of the triangle
   * @param ya the y-coordinate of the first vertex of the triangle
   * @param xb the x-coordinate of the second vertex of the triangle
   * @param yb the y-coordinate of the second vertex of the triangle
-  * @param x the x-coordinate of the center of the pixel
-  * @param y the y-coordinate of the center of the pixel
-  * @return true if the sign of the cross product of the two vectors
-  * is negative or false otherwise
+  * @param x the x-coordinate of the specific location of the pixel
+  * @param y the y-coordinate of the specific location of the pixel
+  * @return true if the pixel is in the triangle or false otherwise
   */
 bool leftOf( double xa, double ya, double xb, double yb, double x, double y )
 {
