@@ -76,11 +76,11 @@ bool leftOf( double xa, double ya, double xb, double yb, double x, double y )
 bool inside( double x1, double y1, double x2, double y2, double x3, double y3,
              double x, double y )
 {
-    if ( !leftOf(x1, y1, x2, y2, x, y ) ) {
+    if ( !leftOf( x1, y1, x2, y2, x, y ) ) {
         return false;
-    } else if ( !leftOf(x2, y2, x3, y3, x, y ) ) {
+    } else if ( !leftOf( x2, y2, x3, y3, x, y ) ) {
         return false;
-    } else if ( !leftOf(x3, y3, x1, y1, x, y ) ) {
+    } else if ( !leftOf( x3, y3, x1, y1, x, y ) ) {
         return false;
     } else {
         return true;
