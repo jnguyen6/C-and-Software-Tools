@@ -69,18 +69,18 @@ bool leftOf( double xa, double ya, double xb, double yb, double x, double y )
  * @param y2 the y-coordinate of the second vertex of the triangle
  * @param x3 the x-coordinate of the third vertex of the triangle
  * @param y3 the y-coordinate of the third vertex of the triangle
- * @param x the x-coordinate of the center of the pixel
- * @param y the y-coordinate of the center of the pixel
+ * @param x the x-coordinate of the specific location of the pixel
+ * @param y the y-coordinate of the specific location of the pixel
  * @return true if the pixel is inside the triangle or false otherwise
  */
 bool inside( double x1, double y1, double x2, double y2, double x3, double y3,
              double x, double y )
 {
-    if ( !leftOf(x1, y1, x2, y2, x, y )) {
+    if ( !leftOf(x1, y1, x2, y2, x, y ) ) {
         return false;
-    } else if ( !leftOf(x2, y2, x3, y3, x, y )) {
+    } else if ( !leftOf(x2, y2, x3, y3, x, y ) ) {
         return false;
-    } else if ( !leftOf(x3, y3, x1, y1, x, y )) {
+    } else if ( !leftOf(x3, y3, x1, y1, x, y ) ) {
         return false;
     } else {
         return true;

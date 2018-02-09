@@ -6,7 +6,7 @@
  * @author Jimmy Nguyen (jnguyen6)
  */
 
-/** Maximum color component value. */
+/** The maximum RGB color component value. */
 #define CMAX 255
 
 /**

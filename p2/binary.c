@@ -5,14 +5,13 @@
  * the maximum intensity for the RGB color. After printing the header,
  * the program then prints the color values for all pixels in the image.
  *
- * @file text.c
+ * @file binary.c
  * @author Jimmy Nguyen (jnguyen6)
  */
 
 #include "encoding.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 
 /** The binary image format number. */
 #define IMAGE_FORMAT_NUMBER 6
@@ -27,9 +26,9 @@
  */
 void printHeader( int width, int height )
 {
-    printf("P%d\n", IMAGE_FORMAT_NUMBER);
-    printf("%d %d\n", width, height);
-    printf("%d\n", CMAX);
+    printf( "P%d\n", IMAGE_FORMAT_NUMBER );
+    printf( "%d %d\n", width, height );
+    printf( "%d\n", CMAX );
 }
 
 /**

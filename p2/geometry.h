@@ -34,8 +34,8 @@
   * @param ya the y-coordinate of the first vertex of the triangle
   * @param xb the x-coordinate of the second vertex of the triangle
   * @param yb the y-coordinate of the second vertex of the triangle
-  * @param x the x-coordinate of the center of the pixel
-  * @param y the y-coordinate of the center of the pixel
+  * @param x the x-coordinate of the specific location of the pixel
+  * @param y the y-coordinate of the specific location of the pixel
   * @return true if the pixel is in the triangle or false otherwise
   */
 bool leftOf( double xa, double ya, double xb, double yb,
