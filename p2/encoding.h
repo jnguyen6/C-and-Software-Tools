@@ -4,6 +4,7 @@
  *
  * @file encoding.h
  * @author Jimmy Nguyen (jnguyen6)
+ * @author David Sturgill (dbsturgi)
  */
 
 /** The maximum RGB color component value. */

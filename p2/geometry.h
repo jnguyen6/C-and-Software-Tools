@@ -6,6 +6,7 @@
  *
  * @file geometry.h
  * @author Jimmy Nguyen (jnguyen6)
+ * @author David Sturgill (dbsturgi)
  */
 
 #include <stdbool.h>
