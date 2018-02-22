@@ -1,0 +1,26 @@
+
+_ _ _ _
+
+Remaining letters: a b c d e f g h i j k l m n o p q r s t u v w x y z
+
+letter> 
+p _ _ _
+
+Remaining letters: a b c d e f g h i j k l m n o q r s t u v w x y z
+
+letter> 
+p l _ _
+
+Remaining letters: a b c d e f g h i j k m n o q r s t u v w x y z
+
+letter> 
+p l u _
+
+Remaining letters: a b c d e f g h i j k m n o q r s t v w x y z
+
+letter> 
+p l u m
+
+You win!
+
+Play again(y,n)> 

@@ -1,0 +1,1 @@
+usage: hangman <word-file> [seed]
