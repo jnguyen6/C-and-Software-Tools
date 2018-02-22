@@ -14,7 +14,7 @@
  *
  * @param word the word array to print to standard output
  */
-void displayWord( char word[] );
+void displayWord( char word[ ] );
 
 /**
  * Prints the stick figure to standard output based on the given number of

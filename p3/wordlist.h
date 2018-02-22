@@ -9,8 +9,8 @@
 
 /** The maximum number of words that can be in the word array. */
 #define MAX_WORDS 50
-/** The maximum character length of a word. */
-#define MAX_CHAR_LENGTH 20
+/** The maximum character length of a word, including the null terminator. */
+#define MAX_CHAR_LENGTH 21
 
 
 /** Global variable that stores the list of words. The array can store
