@@ -25,6 +25,7 @@
 #include <stddef.h>
 #include <stdbool.h>
 #include <string.h>
+#include <time.h>
  
 /** The number of letters in the English alphabet. */
 #define NUM_LETTERS 26
@@ -47,74 +48,95 @@
 int main ( int argc, char *argv[] )
 {
     //If the user does not provide the input file
-    if ( argc = 1 ) {
-        fprintf( stderr, "usage: hangman <word-file> [seed]" );
+    if ( argc == 1 ) {
+        fprintf( stderr, "usage: hangman <word-file> [seed]\n" );
         exit( 1 );
     }
-    readWord( &argv[ 1 ] );
-    int index;
-    int seed = NULL;
+    readWords( argv[ 1 ] );
+    int seed = -1;
     //If the user provides a seed
-    if ( argc = 3 ) {
+    if ( argc == 3 ) {
         seed = atoi( argv[ 2 ] );
         if ( seed < 0 ) {
-            fprintf( stderr, "usage: hangman <word-file> [seed]" );
+            fprintf( stderr, "usage: hangman <word-file> [seed]\n" );
             exit( 1 );
         }
     }
-    
-    char response = "y";
-    while ( response == 'y' || response == 'Y' ) {
-        index = srand( time( seed ) ) % wordCount;
-        char word[ MAX_CHAR_LENGTH ];
-        //Select the word for the user to guess
+    if ( seed < 0 ) {
+        srand( time( NULL ) );
+    } else {
+        srand( (unsigned) seed );
+    }
+    char response[ 2 ];
+    response[ 0 ] = 'y';
+    while ( response[ 0 ] == 'y' || response[ 0 ] == 'Y' ) {
+        int index = rand( ) % wordCount;
+        char selectedWord[ MAX_CHAR_LENGTH ];
+        char wordToGuess[ MAX_CHAR_LENGTH ];
         for ( int i = 0; i < MAX_CHAR_LENGTH; i++ ) {
-            word[ i ] = words[ index ][ i ];
+            selectedWord[ i ] = '\0';
+            wordToGuess[ i ] = '\0';
+        }
+        
+        //Select the word for the user to guess
+        for ( int i = 0; words[ index ][ i ]; i++ ) {
+            selectedWord[ i ] = words[ index ][ i ];
+        }
+        for ( int i = 0; selectedWord[ i ]; i++ ) {
+            wordToGuess[ i ] = '_';
         }
         int numTries = 0;
         int numMatches = 0;
-        int target = sizeof( word[ ] ) / sizeof( word[ 0 ] );
+        int target = strlen( selectedWord );
         char letters[ NUM_LETTERS + 1 ];
+        
         //Create the array of letters
         for ( int i = 0; i < NUM_LETTERS; i++ ) {
             letters[ i ] = ( char ) ( i + ASCII_A );
         }
+        letters[ NUM_LETTERS ] = '\0';
+        
         //Keep iterating until user uses up all his/her guesses or
         //if the user correctly guessed the word
-        while ( numTries != MAX_NUM_INCORRECT || numMatches != target ) {
+        while ( numMatches != target && numTries != MAX_NUM_INCORRECT ) {
             displayFigure( numTries );
-            displayWord( word );
-            printf( "\nRemaining letters:" );
+            displayWord( wordToGuess );
+            printf( "\n\nRemaining letters:" );
             for ( int i = 0; letters[ i ]; i++ ) {
                 printf( " %c", letters[ i ] );
             }
             
-            printf( "\nletter> " );
-            char letter[ ];
+            printf( "\n\nletter> " );
+            char letter[ MAX_WORDS ];
+            char ch;
             bool isValid = false;
             while ( !isValid ) {
+                if ( scanf( "%s", letter) == EOF ) {
+                    return EXIT_SUCCESS;
+                }
                 //If the word is too long
-                scanf( "%s", letter );
                 if ( strlen( letter ) > 1 ) {
                     printf( "Invalid letter\n" );
-                    scanf( "*[^\n]%c", &ch );
+                    printf( "\nletter> " );
+                    scanf( "%*[^\n]%c", &ch );
                 } else {
                     for ( int i = 0; letters[ i ]; i++ ) {
                         //If the letter is not previously chosen
-                        if ( letter[ 0 ] = letters[ i ] ) {
+                        if ( letter[ 0 ] == letters[ i ] ) {
                             isValid = true;
                         }
                     }
                     //If the letter was already chosen or is not valid
                     if ( !isValid ) {
                         printf( "Invalid letter\n" );
+                        printf( "\nletter> " );
                         scanf( "%*[^\n]%c", &ch );
                     }
                 }
             }
             //Remove letter from list, then perform shifting
             for ( int i = 0; letters[ i ]; i++ ) {
-                if ( letter[ 0 ] = letters[ i ] ) {
+                if ( letter[ 0 ] == letters[ i ] ) {
                     for ( int j = i; letters[ j ]; j++ ) {
                         letters[ j ] = letters[ j + 1 ];
                     }
@@ -122,32 +144,32 @@ int main ( int argc, char *argv[] )
             }
             //Now check if the input letter is part of the selected word
             bool matchFound = false;
-            for ( int i = 0; word[ i ]; i++ ) {
-                if ( letter[ 0 ] = word[ i ] ) {
+            for ( int i = 0; selectedWord[ i ]; i++ ) {
+                if ( letter[ 0 ] == selectedWord[ i ] ) {
                     matchFound = true;
-                    word[ i ] = letter[ 0 ];
+                    numMatches++;
+                    wordToGuess[ i ] = letter[ 0 ];
                 }
             }
-            if ( matchFound ) {
-                numMatches++;
-            } else {
+            if ( !matchFound ) {
                 numTries++;
             }
         }
         //If we get to this point, then the user is prompted to either play
         //again or quit
-        if ( numMatches = target ) {
-            displayWord( word );
-            printf( "\nYou win!" );
+        if ( numMatches == target ) {
+            printf( "\n" );
+            displayWord( wordToGuess );
+            printf( "\n\nYou win!" );
         } else {
             displayFigure( numTries );
-            printf( "\nYou lose!\nWord was " );
-            for ( int i = 0; word[ i ]; i++ ) {
-                printf( "%c", word[ i ] );
+            printf( "You lose!\nWord was " );
+            for ( int i = 0; selectedWord[ i ]; i++ ) {
+                printf( "%c", selectedWord[ i ] );
             }
         }
         printf( "\n\nPlay again(y,n)> " );
-        scanf( "%c%[^\n]c", &response, NULL );
+        scanf( "%1s%*[^\n]%*c", response );
     }
     return EXIT_SUCCESS;
 }

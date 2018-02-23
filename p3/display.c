@@ -47,5 +47,21 @@ void displayWord( char word[ ] )
  */
 void displayFigure( int numberOfParts )
 {
-    
+    if ( numberOfParts == HEAD ) {
+        printf( "\n O \n\n" );
+    } else if ( numberOfParts == HEAD_TOP ) {
+        printf( "\n O \n | \n\n" );
+    } else if ( numberOfParts == HEAD_TOP_BOTTOM ) {
+        printf( "\n O \n | \n | \n\n" );
+    } else if ( numberOfParts == HEAD_TOP_BOTTOM_LEFTA ) {
+        printf( "\n O \n/| \n | \n\n" );
+    } else if ( numberOfParts == HEAD_TOP_BOTTOM_LEFTA_RIGHTA ) {
+        printf( "\n O \n/|\\\n | \n\n" );
+    } else if ( numberOfParts == HEAD_TOP_BOTTOM_LEFTA_RIGHTA_LEFTL ) {
+        printf( "\n O \n/|\\\n | \n/\n\n" );
+    } else if ( numberOfParts == FULL_FIGURE ) {
+        printf( "\n O \n/|\\\n | \n/ \\\n\n" );
+    } else {
+        printf( "\n" );
+    }   
 }
