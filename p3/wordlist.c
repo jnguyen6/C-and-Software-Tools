@@ -22,22 +22,29 @@ void readWords( char const *filename )
 {
     FILE *fp = fopen( filename, "r" );
     if ( !fp ) {
-        fprintf( stderr, "Can't open word file" );
+        fprintf( stderr, "Can't open word file\n" );
         exit( 1 );
     }
     
     wordCount = 0;
     char word[ MAX_WORDS ];
-    while ( fscanf( fp, "%s", word ) != EOF ) {
+    int matches = fscanf( fp, "%[a-z]", word );
+    while ( matches != EOF ) {
         //If the number of words in the file exceeds the word limit
         if ( wordCount >= MAX_WORDS ) {
-            fprintf( stderr, "Invalid word file" );
+            fprintf( stderr, "Invalid word file\n" );
+            fclose( fp );
+            exit( 1 );
+        }
+        //If the characters in a word are not all lowercase letters
+        if ( matches == 0 ) {
+            fprintf( stderr, "Invalid word file\n" );
             fclose( fp );
             exit( 1 );
         }
         //If the word is too long
         if ( strlen( word ) > MAX_CHAR_LENGTH - 1 ) {
-            fprintf( stderr, "Invalid word file" );
+            fprintf( stderr, "Invalid word file\n" );
             fclose( fp );
             exit( 1 );
         }
@@ -46,6 +53,9 @@ void readWords( char const *filename )
             words[ wordCount ][ i ] = word[ i ];
         }
         wordCount++;
+        //Skip any whitespace until the next word is reached.
+        //Then, scan the next word
+        matches = fscanf( fp, " %[a-z]", word );
     } 
     fclose( fp );
 }

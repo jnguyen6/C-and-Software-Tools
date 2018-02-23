@@ -116,7 +116,7 @@ int main ( int argc, char *argv[] )
                 }
                 //If the word is too long
                 if ( strlen( letter ) > 1 ) {
-                    printf( "Invalid letter\n" );
+                    printf( "\nInvalid letter\n" );
                     printf( "\nletter> " );
                     scanf( "%*[^\n]%c", &ch );
                 } else {
@@ -128,7 +128,7 @@ int main ( int argc, char *argv[] )
                     }
                     //If the letter was already chosen or is not valid
                     if ( !isValid ) {
-                        printf( "Invalid letter\n" );
+                        printf( "\nInvalid letter\n" );
                         printf( "\nletter> " );
                         scanf( "%*[^\n]%c", &ch );
                     }
