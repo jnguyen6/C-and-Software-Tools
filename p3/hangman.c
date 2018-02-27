@@ -33,12 +33,26 @@
 #define MAX_NUM_INCORRECT 7
 /** The ASCII code for 'a'. */
 #define ASCII_A 97
+/** The valid number of letters that can be provided as input. */
+#define VALID_NUM_LETTER 1
  
 /**
  * The starting point for the program. The function will get the word file
- * name and the optional seed for the random number generator. If the user
- * does not provide the correct number of command line arguments, then a
- * usage message is displayed, and the program closes unsuccessfully.
+ * name and the optional seed for the random number generator from the command
+ * line arguments. If the user does not provide the correct number of command 
+ * line arguments, or if the given seed is negative, then a usage message is 
+ * displayed, and the program closes unsuccessfully. Otherwise, the program will
+ * display the stick figure and the word to guess hidden by underscores and
+ * continuously prompt the user to guess the word until the user successfully
+ * or unsuccessfully guesses the word. If the user provides input that is
+ * longer than one letter, is already previously guessed, or contains invalid
+ * characters, then the program will mention that the provided input is invalid,
+ * and the user will continuously be asked to provide a valid letter. If the user
+ * provides a letter that is not in the word to guess, then a body part is added
+ * to the stick figure. Once the user successfully or unsuccessfully guesses the
+ * word, then user will then be prompted to either play the game again or not.
+ * If the user provides input that starts with a 'y' or a 'Y', then the program
+ * resets, choosing a new word to guess. Otherwise, the program exits successfully.
  *
  * @param argc the number of command line arguments given
  * @param argv the array of null terminated strings for the command line 
@@ -67,12 +81,14 @@ int main ( int argc, char *argv[] )
     } else {
         srand( (unsigned) seed );
     }
-    char response[ 2 ];
-    response[ 0 ] = 'y';
+    char response[ ] = "y";
     while ( response[ 0 ] == 'y' || response[ 0 ] == 'Y' ) {
         int index = rand( ) % wordCount;
         char selectedWord[ MAX_CHAR_LENGTH ];
         char wordToGuess[ MAX_CHAR_LENGTH ];
+        
+        //If the user plays the game again, reset selectedWord and wordToGuess
+        //arrays
         for ( int i = 0; i < MAX_CHAR_LENGTH; i++ ) {
             selectedWord[ i ] = '\0';
             wordToGuess[ i ] = '\0';
@@ -85,6 +101,7 @@ int main ( int argc, char *argv[] )
         for ( int i = 0; selectedWord[ i ]; i++ ) {
             wordToGuess[ i ] = '_';
         }
+        
         int numTries = 0;
         int numMatches = 0;
         int target = strlen( selectedWord );
@@ -107,15 +124,16 @@ int main ( int argc, char *argv[] )
             }
             
             printf( "\n\nletter> " );
-            char letter[ MAX_WORDS ];
+            
+            char letter[ ] = " ";
             char ch;
             bool isValid = false;
             while ( !isValid ) {
-                if ( scanf( "%s", letter) == EOF ) {
+                if ( scanf( "%2s", letter) == EOF ) {
                     return EXIT_SUCCESS;
                 }
                 //If the word is too long
-                if ( strlen( letter ) > 1 ) {
+                if ( strlen( letter ) > VALID_NUM_LETTER ) {
                     printf( "\nInvalid letter\n" );
                     printf( "\nletter> " );
                     scanf( "%*[^\n]%c", &ch );
@@ -126,7 +144,7 @@ int main ( int argc, char *argv[] )
                             isValid = true;
                         }
                     }
-                    //If the letter was already chosen or is not valid
+                    //If the letter is already chosen or is not valid
                     if ( !isValid ) {
                         printf( "\nInvalid letter\n" );
                         printf( "\nletter> " );
