@@ -17,8 +17,8 @@
 void displayWord( char word[ ] );
 
 /**
- * Prints the stick figure to standard output based on the given number of
- * body parts.
+ * Prints the stick figure to standard output based on the given 
+ * number of body parts.
  *
  * @param numberOfParts the number of parts to print
  */
