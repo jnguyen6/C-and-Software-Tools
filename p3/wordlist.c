@@ -33,8 +33,8 @@ void readWords( char const *filename )
     }
     
     wordCount = 0;
-    char word[ MAX_WORDS ];
-    int matches = fscanf( fp, "%[a-z]", word );
+    char word[ MAX_CHAR_LENGTH ];
+    int matches = fscanf( fp, "%21[a-z]", word );
     while ( matches != EOF ) {
         //If the number of words in the file exceeds the word limit
         if ( wordCount >= MAX_WORDS ) {

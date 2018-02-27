@@ -79,7 +79,7 @@ int main ( int argc, char *argv[] )
     if ( seed < 0 ) {
         srand( time( NULL ) );
     } else {
-        srand( (unsigned) seed );
+        srand( seed );
     }
     char response[ ] = "y";
     while ( response[ 0 ] == 'y' || response[ 0 ] == 'Y' ) {
@@ -109,7 +109,7 @@ int main ( int argc, char *argv[] )
         
         //Create the array of letters
         for ( int i = 0; i < NUM_LETTERS; i++ ) {
-            letters[ i ] = ( char ) ( i + ASCII_A );
+            letters[ i ] = (char) ( i + ASCII_A );
         }
         letters[ NUM_LETTERS ] = '\0';
         
