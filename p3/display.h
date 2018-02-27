@@ -8,17 +8,18 @@
  */
 
 /**
- * Prints the characters in the given word array to standard output.
- * Some or all of the characters in the word array can be underscores.
- * A whitespace is used to separate each printed character.
+ * Prototype that prints the characters in the given word array to
+ * standard output. Some or all of the characters in the word array
+ * can be underscores. A whitespace is used to separate each printed
+ * character.
  *
  * @param word the word array to print to standard output
  */
 void displayWord( char word[ ] );
 
 /**
- * Prints the stick figure to standard output based on the given 
- * number of body parts.
+ * Prototype that prints the stick figure to standard output based on
+ * the given number of body parts.
  *
  * @param numberOfParts the number of parts to print
  */
