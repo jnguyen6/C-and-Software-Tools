@@ -14,3 +14,4 @@ clean:
 	rm -f hangman.o wordlist.o display.o
 	rm -f hangman
 	rm -f output-*.txt
+	rm -f stdout-*.txt
