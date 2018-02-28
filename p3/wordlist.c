@@ -13,7 +13,7 @@
 #include <string.h>
 
 /**
- * Reads the words from the given file and stores them in the 
+ * Reads the words from the given file and stores them in the
  * two-dimensional character array. If the given input file
  * cannot be opened, then a standard error message is printed,
  * and the program exits with a status of 1. If the given input
@@ -29,7 +29,7 @@ void readWords( char const *filename )
     FILE *fp = fopen( filename, "r" );
     if ( !fp ) {
         fprintf( stderr, "Can't open word file\n" );
-        exit( 1 );
+        exit( EXIT_FAILURE );
     }
     
     wordCount = 0;
@@ -40,19 +40,19 @@ void readWords( char const *filename )
         if ( wordCount >= MAX_WORDS ) {
             fprintf( stderr, "Invalid word file\n" );
             fclose( fp );
-            exit( 1 );
+            exit( EXIT_FAILURE );
         }
         //If the characters in a word are not all lowercase letters
         if ( matches == 0 ) {
             fprintf( stderr, "Invalid word file\n" );
             fclose( fp );
-            exit( 1 );
+            exit( EXIT_FAILURE );
         }
         //If the word is too long
         if ( strlen( word ) > MAX_CHAR_LENGTH - 1 ) {
             fprintf( stderr, "Invalid word file\n" );
             fclose( fp );
-            exit( 1 );
+            exit( EXIT_FAILURE );
         }
         //Now, add the word to the word list
         for ( int i = 0; word[ i ]; i++ ) {
@@ -62,6 +62,6 @@ void readWords( char const *filename )
         //Skip any whitespace until the next word is reached.
         //Then, scan the next word
         matches = fscanf( fp, " %[a-z]", word );
-    } 
+    }
     fclose( fp );
 }

@@ -27,7 +27,7 @@
 #define FULL_FIGURE 7
 
 /**
- * Prints the characters in the given word array to standard 
+ * Prints the characters in the given word array to standard
  * output. Some or all of the characters in the word array
  * can be underscores. A whitespace is used to separate each
  * printed character.
@@ -67,5 +67,5 @@ void displayFigure( int numberOfParts )
         printf( "\n O \n/|\\\n | \n/ \\\n\n" );
     } else {
         printf( "\n" );
-    }   
+    }
 }

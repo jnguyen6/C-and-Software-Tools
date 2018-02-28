@@ -12,10 +12,9 @@
 /** The maximum character length of a word, including the null terminator. */
 #define MAX_CHAR_LENGTH 21
 
-
-/** 
+/**
  * Global variable that stores the list of words. The array can store
- * up to 50 words, with each word having a maximum character length 
+ * up to 50 words, with each word having a maximum character length
  * of 20.
  */
 char words[ MAX_WORDS ][ MAX_CHAR_LENGTH ];
@@ -24,7 +23,7 @@ char words[ MAX_WORDS ][ MAX_CHAR_LENGTH ];
 int wordCount;
 
 /**
- * Prototype that reads the words from the given file and stores them 
+ * Prototype that reads the words from the given file and stores them
  * in the two-dimensional character array.
  *
  * @param filename the file to read the words from

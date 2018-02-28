@@ -26,7 +26,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <time.h>
- 
+
 /** The number of letters in the English alphabet. */
 #define NUM_LETTERS 26
 /** The maximum number of incorrect inputs the program can have. */
@@ -35,12 +35,12 @@
 #define ASCII_A 97
 /** The valid number of letters that can be provided as input. */
 #define VALID_NUM_LETTER 1
- 
+
 /**
  * The starting point for the program. The function will get the word file
  * name and the optional seed for the random number generator from the command
- * line arguments. If the user does not provide the correct number of command 
- * line arguments, or if the given seed is negative, then a usage message is 
+ * line arguments. If the user does not provide the correct number of command
+ * line arguments, or if the given seed is negative, then a usage message is
  * displayed, and the program closes unsuccessfully. Otherwise, the program will
  * display the stick figure and the word to guess hidden by underscores and
  * continuously prompt the user to guess the word until the user successfully
@@ -55,7 +55,7 @@
  * resets, choosing a new word to guess. Otherwise, the program exits successfully.
  *
  * @param argc the number of command line arguments given
- * @param argv the array of null terminated strings for the command line 
+ * @param argv the array of null terminated strings for the command line
  * arguments
  * @return the program's exit status
  */
@@ -64,19 +64,17 @@ int main ( int argc, char *argv[] )
     //If the user does not provide the input file
     if ( argc == 1 ) {
         fprintf( stderr, "usage: hangman <word-file> [seed]\n" );
-        exit( 1 );
+        exit( EXIT_FAILURE );
     }
     readWords( argv[ 1 ] );
-    int seed = -1;
+    
     //If the user provides a seed
-    if ( argc == 3 ) {
-        seed = atoi( argv[ 2 ] );
-        if ( seed < 0 ) {
-            fprintf( stderr, "usage: hangman <word-file> [seed]\n" );
-            exit( 1 );
-        }
-    }
+    int seed = atoi( argv[ 2 ] );
     if ( seed < 0 ) {
+        fprintf( stderr, "usage: hangman <word-file> [seed]\n" );
+        exit( EXIT_FAILURE );
+    }
+    if ( seed == 0 ) {
         srand( time( NULL ) );
     } else {
         srand( seed );
