@@ -35,6 +35,17 @@
 #define ASCII_A 97
 /** The valid number of letters that can be provided as input. */
 #define VALID_NUM_LETTER 1
+/** 
+ * The maximum number of command line arguments allowed, which
+ * consists of the executable, input file, and an optional seed
+ * integer.
+ */
+#define MAX_NUM_ARGUMENTS 3
+/**
+ * The minimum number of arguments allowed, which consists of the
+ * executable and input file.
+ */
+#define MIN_NUM_ARGUMENTS 2
 
 /**
  * The starting point for the program. The function will get the word file
@@ -62,17 +73,20 @@
 int main ( int argc, char *argv[] )
 {
     //If the user does not provide the input file
-    if ( argc == 1 ) {
+    if ( argc < MIN_NUM_ARGUMENTS ) {
         fprintf( stderr, "usage: hangman <word-file> [seed]\n" );
         exit( EXIT_FAILURE );
     }
     readWords( argv[ 1 ] );
     
-    //If the user provides a seed
-    int seed = atoi( argv[ 2 ] );
-    if ( seed < 0 ) {
-        fprintf( stderr, "usage: hangman <word-file> [seed]\n" );
-        exit( EXIT_FAILURE );
+    int seed = 0;
+    if ( argc == MAX_NUM_ARGUMENTS ) {
+        //If the user provides a seed
+        seed = atoi( argv[ 2 ] );
+        if ( seed < 0 ) {
+            fprintf( stderr, "usage: hangman <word-file> [seed]\n" );
+            exit( EXIT_FAILURE );
+        }
     }
     if ( seed == 0 ) {
         srand( time( NULL ) );
