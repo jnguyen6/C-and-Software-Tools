@@ -23,8 +23,14 @@ char words[ MAX_WORDS ][ MAX_CHAR_LENGTH ];
 int wordCount;
 
 /**
- * Prototype that reads the words from the given file and stores them
- * in the two-dimensional character array.
+ * Reads the words from the given file and stores them in the
+ * two-dimensional character array. If the given input file
+ * cannot be opened, then a standard error message is printed,
+ * and the program exits with a status of 1. If the given input
+ * file contains words that are over the 50 word limit, does not
+ * contain all lowercase letters, or are too long, then a standard
+ * error message is printed, and the program exits with a status
+ * of 1.
  *
  * @param filename the file to read the words from
  */

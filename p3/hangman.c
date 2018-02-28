@@ -35,6 +35,7 @@
 #define ASCII_A 97
 /** The valid number of letters that can be provided as input. */
 #define VALID_NUM_LETTER 1
+
 /** 
  * The maximum number of command line arguments allowed, which
  * consists of the executable, input file, and an optional seed
