@@ -1,0 +1,49 @@
+1> 
+2> 
+3> 
+4> 
+5> 
+6> 
+7> 
+8> 
+library (0.3 miles)
+  Second main library of North Carolina State University.
+waffle-house (0.4 miles)
+  All-day breakfast, including signature waffles.
+pullen-park (0.8 miles)
+  5th-oldest US amusement park, carousel, mini-train, paddle boats.
+bell-tower (1.1 miles)
+  Beautiful tower & an iconic Raleigh landmark.
+food-lion (1.4 miles)
+  Friendly staff, well organized departments, and clean fresh produce.
+state-capital (2.0 miles)
+  Greek revival landmark, historical artifacts & the Governor's offices.
+nc-museum-of-art (3.1 miles)
+  Collection spanning 5,000 years, outdoor monument park & amphitheater.
+9> 
+10> 
+library (0.3 miles)
+  Second main library of North Carolina State University.
+pullen-park (0.8 miles)
+  5th-oldest US amusement park, carousel, mini-train, paddle boats.
+bell-tower (1.1 miles)
+  Beautiful tower & an iconic Raleigh landmark.
+food-lion (1.4 miles)
+  Friendly staff, well organized departments, and clean fresh produce.
+state-capital (2.0 miles)
+  Greek revival landmark, historical artifacts & the Governor's offices.
+nc-museum-of-art (3.1 miles)
+  Collection spanning 5,000 years, outdoor monument park & amphitheater.
+11> 
+12> 
+library (0.3 miles)
+  Second main library of North Carolina State University.
+pullen-park (0.8 miles)
+  5th-oldest US amusement park, carousel, mini-train, paddle boats.
+bell-tower (1.1 miles)
+  Beautiful tower & an iconic Raleigh landmark.
+food-lion (1.4 miles)
+  Friendly staff, well organized departments, and clean fresh produce.
+state-capital (2.0 miles)
+  Greek revival landmark, historical artifacts & the Governor's offices.
+13> 

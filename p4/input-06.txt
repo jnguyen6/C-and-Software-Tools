@@ -1,0 +1,4 @@
+add library 35.787609 -78.670207 Main library at North Carolina State University.
+add waffle-house 35.777403 -78.676269 All-day breakfast, including signature waffles.
+add library 35.769246 -78.676410 Second main library of North Carolina State University.
+quit

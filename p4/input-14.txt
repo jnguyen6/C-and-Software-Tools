@@ -1,0 +1,5 @@
+add library 35.787609 -78.670207 Main library at North Carolina State University.
+list
+move 35.782988 abc.123
+list
+quit

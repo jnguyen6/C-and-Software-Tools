@@ -1,0 +1,13 @@
+add nc-museum-of-art 35.810451 -78.703361 Collection spanning 5,000 years, outdoor monument park & amphitheater.
+add state-capital 35.780352 -78.639107 Greek revival landmark, historical artifacts & the Governor's offices.
+add pullen-park 35.779564 -78.663132 5th-oldest US amusement park, carousel, mini-train, paddle boats.
+add library 35.769246 -78.676410 Second main library of North Carolina State University.
+add bell-tower 35.786107 -78.663513 Beautiful tower & an iconic Raleigh landmark.
+add food-lion 35.766219 -78.697187 Friendly staff, well organized departments, and clean fresh produce.
+add waffle-house 35.777403 -78.676269 All-day breakfast, including signature waffles.
+list
+remove waffle-house
+list
+remove nc-museum-of-art
+list
+quit

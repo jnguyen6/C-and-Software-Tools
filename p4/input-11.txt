@@ -1,0 +1,11 @@
+add food-lion 35.766219 -78.697187 Friendly staff, well organized departments, and clean fresh produce.
+add snoopys 35.793337 -78.683623 Old-fashioned hot dogs, burgers & BBQ sandwiches, plus floats.
+add pullen-park 35.779564 -78.663132 5th-oldest US amusement park, carousel, mini-train, paddle boats.
+add library 35.769246 -78.676410 Second main library of North Carolina State University.
+add bell-tower 35.786107 -78.663513 Beautiful tower & an iconic Raleigh landmark.
+list
+remove snoopys
+list
+add snoopys 35.780923 -78.647862 Old-fashioned hot dogs, burgers & BBQ sandwiches, plus floats.
+list
+quit

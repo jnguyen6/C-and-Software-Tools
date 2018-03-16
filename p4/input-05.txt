@@ -1,0 +1,2 @@
+add waffle-house 35.777403 -78.676269 All-day breakfast, including signature waffles.
+quit

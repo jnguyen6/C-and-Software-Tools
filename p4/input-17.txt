@@ -1,0 +1,7 @@
+add library 35.769246 -78.676410 Second main library of North Carolina State University.
+add waffle-house 35.777403 -78.676269 All-day breakfast, including signature waffles.
+add nc-museum-of-art 35.810451 -78.703361 Collection spanning 5,000 years, outdoor monument park & amphitheater.
+add pullen-park 35.779564 -78.663132 5th-oldest US amusement park, carousel, mini-train, paddle boats.
+match US
+match 123456
+quit

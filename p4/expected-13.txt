@@ -1,0 +1,32 @@
+1> 
+2> 
+3> 
+4> 
+5> 
+6> 
+7> 
+8> 
+9> 
+library (0.3 miles)
+  Second main library of North Carolina State University.
+waffle-house (0.4 miles)
+  All-day breakfast, including signature waffles.
+pullen-park (0.8 miles)
+  5th-oldest US amusement park, carousel, mini-train, paddle boats.
+bell-tower (1.1 miles)
+  Beautiful tower & an iconic Raleigh landmark.
+food-lion (1.4 miles)
+  Friendly staff, well organized departments, and clean fresh produce.
+10> 
+11> 
+bell-tower (0.2 miles)
+  Beautiful tower & an iconic Raleigh landmark.
+pullen-park (0.5 miles)
+  5th-oldest US amusement park, carousel, mini-train, paddle boats.
+waffle-house (0.7 miles)
+  All-day breakfast, including signature waffles.
+snoopys (1.0 miles)
+  Old-fashioned hot dogs, burgers & BBQ sandwiches, plus floats.
+library (1.2 miles)
+  Second main library of North Carolina State University.
+12> 

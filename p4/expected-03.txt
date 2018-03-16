@@ -1,0 +1,10 @@
+1> 
+add <name> <latitude> <longitude> <description>
+remove <name>
+move <latitude> <longitude>
+list
+nearby <distance>
+match <word>
+help
+quit
+2> 

@@ -1,0 +1,6 @@
+add a-name-of-max-length 35.2 -125.3 A made-up place.
+add this-name-is-too-long -35.2 125.3 Another made-up place.
+add too-far-north 95.3 -105.8 Another made-up place.
+add too-far-west 65.3 -185.1 Another made-up place.
+list
+quit
