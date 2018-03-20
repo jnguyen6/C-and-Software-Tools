@@ -10,7 +10,8 @@
  * @file pointlist.h
  * @author Jimmy Nguyen (jnguyen6)
  */
- 
+
+#include "point.h"
 #include <stdbool.h>
 
 /**

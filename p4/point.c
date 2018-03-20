@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 
 /** The maximum length of the text description of the point of interest. */
 #define MAX_DESC_LENGTH 1024
@@ -38,56 +39,85 @@ Point *parsePoint( )
     if ( scanf( "%20s %lf %lf %1024[^\n\t]", name, &lat, &lon, description ) != 4 ) {
         return NULL;
     }
+    description[ MAX_DESC_LENGTH ] = '\0';
     if ( lat < MIN_LAT_VAL || lat > MAX_LAT_VAL ) {
         return NULL;
+    }
     if ( lon < MIN_LON_VAL || lon > MAX_LON_VAL ) {
         return NULL;
     }
-    
-    int firstInput = getchar( );
-    int secondInput = getchar( );
-    if ( firstInput != '\n' && firstInput != '\t' ) {
-        return NULL;
-    } else if ( firstInput == '\n' && secondInput != EOF ) {
-        return NULL;
-    } else if ( firstInput == '\t' && secondInput != EOF ) {
+    char temp[ MAX_DESC_LENGTH + 1 ];
+    int matches = scanf( "%[^\n\t]", temp );
+    if ( matches == 1 ) {
         return NULL;
     } else {
         Point *pt = (Point *)malloc( sizeof( Point ) );
-        pt->name = name;
-        pt->location->lat = lat;
-        pt->location->lon = lon;
-        pt->desc = description;
+  //       for ( int i = 0; pt->name[ i ]; i++ ) {
+//             pt->name[ i ] = '\0';
+//         }
+        char *nm = (char *)malloc( strlen( name ) + 1 * sizeof( char ) );
+        for ( int i = 0; name[ i ]; i++ ) {
+            nm[ i ] = name[ i ];
+        }
+        nm[ strlen( name ) ] = '\0';
+        pt->name = nm;
+    //     for ( int i = 0; name[ i ]; i++ ) {
+//             pt->name[ i ] = name[ i ];
+//         }
+        pt->location.lat = lat;
+        pt->location.lon = lon;
+     //    pt->desc = (char *)malloc( strlen( description ) + 1 * sizeof( char ) );
+//         for ( int i = 0; description[ i ]; i++ ) {
+//             pt->desc[ i ] = description[ i ];
+//         }
+        char *desc = (char *)malloc( strlen( description ) + 1 * sizeof( char ) );
+        for ( int i = 0; description[ i ]; i++ ) {
+            desc[ i ] = description[ i ];
+        }
+        desc[ strlen( description ) ] = '\0';
+        pt->desc = desc;
+        //free( desc );
+        
+        for ( int i = 0; description[ i ]; i++ ) {
+            description[ i ] = '\0';
+        }
+        
+        for ( int i = 0; name[ i ]; i++ ) {
+            name[ i ] = '\0';
+        }
         return pt;
+    }
+    for ( int i = 0; name[ i ]; i++ ) {
+        name[ i ] = '\0';
     }
 }
 
 void freePoint( Point *pt )
 {
+//     for ( int i = 0; pt->name[ i ]; i++ ) {
+//         pt->name[ i ] = '\0';
+//     }
+    free( pt->name );
     free( pt->desc );
     free( pt );
 }
 
 void reportPoint( Point const *pt, Coords const *ref )
 {
-    double distance = globalDistance( &pt->location, &ref );
-    printf( "%s %f\n", pt->name, distance );
-    printf( "  %s\n", pt->desc );
+    double distance = globalDistance( &pt->location, ref );
+    printf( "\n%s (%.1f miles)\n", pt->name, distance );
+    printf( "  %s", pt->desc );
 }
 
 double globalDistance( Coords const *c1, Coords const *c2 )
 {
     //Convert coordinates into vectors
-    double v1[] = { cos( c1->location->lon * DEG_TO_RAD ) 
-                    * cos( c1->location->lat * DEG_TO_RAD ),
-                    sin( c1->location->lon * DEG_TO_RAD )
-                    * cos( c1->location->lat * DEG_TO_RAD ),
-                    sin( c1->location->lat * DEG_TO_RAD ) };
-    double v2[] = { cos( c2->location->lon * DEG_TO_RAD )
-                    * cost( c2->location->lat * DEG_TO_RAD ),
-                    sin( c2->location->lon * DEG_TO_RAD )
-                    * cos( c2->location->lat * DEG_TO_RAD ),
-                    sin( c2->location->lat * DEG_TO_RAD ) };
+    double v1[] = { cos( c1->lon * DEG_TO_RAD ) * cos( c1->lat * DEG_TO_RAD ),
+                    sin( c1->lon * DEG_TO_RAD ) * cos( c1->lat * DEG_TO_RAD ),
+                    sin( c1->lat * DEG_TO_RAD ) };
+    double v2[] = { cos( c2->lon * DEG_TO_RAD ) * cos( c2->lat * DEG_TO_RAD ),
+                    sin( c2->lon * DEG_TO_RAD ) * cos( c2->lat * DEG_TO_RAD ),
+                    sin( c2->lat * DEG_TO_RAD ) };
 
     //Find dot product of v1 and v2
     double dp = 0.0;

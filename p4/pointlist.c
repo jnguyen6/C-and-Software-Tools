@@ -11,9 +11,10 @@
  */
 
 #include "pointlist.h"
-#include "point.c"
+#include "point.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 /** The initial capacity of the PointList. */
 #define INITIAL_CAP 10
@@ -42,15 +43,15 @@ static Coords currentLoc;
  */
 int pointComp( const void *pptra, const void *pptrb )
 {
-    Point const *a = pptra;
-    Point const *b = pptrb;
+    Point *a = *(Point **) pptra;
+    Point *b = *(Point **) pptrb;
     
-    if ( globalDistance( &a->location, &currentLoc ) 
-         < globalDistance( &b->location, &currentLoc ) ) {
+    if ( globalDistance( &(a->location), &currentLoc ) 
+         < globalDistance( &(b->location), &currentLoc ) ) {
         return -1;
     }
-    if ( globalDistance( &a->location, &currentLoc )
-         > globalDistance( &b->location, &currentLoc ) ) {
+    if ( globalDistance( &(a->location), &currentLoc )
+         > globalDistance( &(b->location), &currentLoc ) ) {
         return 1;
     }
     return 0;
@@ -59,14 +60,19 @@ int pointComp( const void *pptra, const void *pptrb )
 PointList *createPointList( )
 {
     PointList *ptlist = (PointList *)malloc( sizeof( PointList ) );
-    ptlist->list = (Point **)malloc( INITIAL_CAP * sizeof( Point ) );
+    ptlist->list = (Point **)malloc( INITIAL_CAP * sizeof( Point* ) );
+    for ( int i = 0; i < INITIAL_CAP; i++ ) {
+        //ptlist->list[ i ] = (Point *)malloc( sizeof( Point ) );
+        ptlist->list[ i ] = NULL;
+    }
     ptlist->count = 0;
     ptlist->cap = INITIAL_CAP;
+    return ptlist;
 }
 
 void freePointList( PointList *ptlist )
 {
-    for ( int i = 0; i < count; i++ ) {
+    for ( int i = 0; i < ptlist->count; i++ ) {
         freePoint( ptlist->list[ i ] );
     }
     free( ptlist->list );
@@ -76,54 +82,77 @@ void freePointList( PointList *ptlist )
 bool addPoint( PointList *ptlist, Point *pt )
 {
     //First, determine if the given point is a duplicate
-    for ( int i = 0; i < count; i++ ) {
+    for ( int i = 0; i < ptlist->count; i++ ) {
         if ( strcmp( ptlist->list[ i ]->name, pt->name ) == 0 ) {
             return false;
         }
     }
-    //Then, determine if the array needs to be resized
     if ( ptlist->count >= ptlist->cap ) {
         ptlist->cap *= RESIZE_MULTIPLIER;
-        ptlist->list = (Point **)realloc( ptlist->list, ptlist->cap * sizeof( Point ) );
+        ptlist->list = (Point **)realloc( ptlist->list, ptlist->cap * sizeof( Point* ) );
+        for ( int i = ptlist->count; i < ptlist->cap; i++ ) {
+            ptlist->list[ i ] = NULL;
+        }
     }
-    ptlist->list[ count ] = pt;
+    ptlist->list[ ptlist->count ] = pt;
     ptlist->count++;
     return true;
 }
 
 bool removePoint( PointList *ptlist, char const *name )
 {
-    //To remove a POI from the list, create new array, and update
+     //To remove a POI from the list, create new array, and update
     //the pointer to the new list
-    Point **newList = (Point **)malloc( ptlist->cap * sizeof( Point ) );
+   // Point **newList = (Point **)malloc( ptlist->cap * sizeof( Point ) );
     bool pointFound = false;
-    for ( int i = 0; i < count; i++ ) {
+    //int index = 0;
+    int indexToRemove = 0;
+    for ( int i = 0; i < ptlist->count; i++ ) {
         if ( strcmp( ptlist->list[ i ]->name, name ) == 0 ) {
             pointFound = true;
-        } else {
-            newList[ i ] = ptlist->list[ i ];
+            indexToRemove = i;
         }
     }
-    for ( int i = 0; i < count; i++ ) {
-        freePoint( ptlist->list[ i ] );
+    if ( pointFound ) {
+        Point *pt = ptlist->list[ indexToRemove ];
+        for ( int i = indexToRemove; i < ptlist->count - 1; i++) {
+            ptlist->list[ i ] = ptlist->list[ i + 1 ];
+        }
+        ptlist->list[ ptlist->count - 1 ] = pt;
+        freePoint( ptlist->list[ ptlist->count - 1 ] );
+        ptlist->list[ ptlist->count - 1 ] = NULL;
+        //ptlist->list[ ptlist->count - 1 ] = (Point *)malloc( sizeof( Point ) );
+        ptlist->count--;
     }
-    free( ptlist->list );
-    ptlist->list = newList;
-    ptlist->count--;
+    //free( ptlist->list );
+    //ptlist->list = newList;
     return pointFound;
 }
 
 void listPoints( PointList *ptlist, Coords const *ref, bool
                  (*test) ( Point const *pt, void *data ), void *data )
 {
-    currentLoc = ref;
-    //First, sort the points
-    qsort( ptlist->list, ptlist->count, sizeof( ptlist->list[ 0 ] ), pointComp );
-    for ( int i = 0; i < count; i++ ) {
-        //If the point is valid, depending on certain functions, then
-        //print the point. Otherwise, ignore the point
-        if ( test( ptlist->list[ i ], data ) ) {
-            reportPoint( &ptlist->list[ i ], &ref );
+    if ( ptlist->count != 0 ) {
+        currentLoc = *ref;
+  //       Point **listToSort = (Point **)malloc( ptlist->count * sizeof( Point* ) );
+//         for ( int i = 0; i < ptlist->count; i++ ) {
+//             listToSort[ i ] = ptlist->list[ i ];
+//         }
+//         qsort( listToSort, ptlist->count, sizeof( listToSort[ 0 ] ), pointComp );
+//         for ( int i = 0; i < ptlist->count; i++ ) {
+//             if ( test( listToSort[ i ], data ) ) {
+//                 reportPoint( listToSort[ i ], ref );
+//             }
+//         }
+//         free( listToSort );
+        //First, sort the points
+        qsort( ptlist->list, ptlist->count, sizeof( ptlist->list[ 0 ] ), pointComp );
+        for ( int i = 0; i < ptlist->count; i++ ) {
+           //  If the point is valid, depending on certain functions, then
+//             print the point. Otherwise, ignore the point
+            if ( test( ptlist->list[ i ], data ) ) {
+               reportPoint( ptlist->list[ i ], ref );
+            }
         }
     }
 }

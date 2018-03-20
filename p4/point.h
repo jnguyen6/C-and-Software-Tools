@@ -30,14 +30,16 @@ typedef struct {
  */
 typedef struct {
     /** A character array that represents the name of the point of interest. */
-    char name[ MAX_NAME_LENGTH + 1 ];
+    //char name[ MAX_NAME_LENGTH + 1 ];
+    char *name;
     /** The location of the point of interest, in latitude and longitude. */
     Coords location;
-    /** A character pointer to the character array that contains
+    /** 
+     * A character pointer to the character array that contains
      * the text description of the point of interest.
      */
     char *desc;
-} Point
+} Point;
 
 /**
  * Creates a new Point struct based on the standard input. The

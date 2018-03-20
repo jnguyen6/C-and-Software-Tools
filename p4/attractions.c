@@ -15,8 +15,8 @@
  * @author Jimmy Nguyen (jnguyen6)
  */
 
-#include "pointlist.c"
-#include "point.c"
+#include "pointlist.h"
+#include "point.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -37,9 +37,9 @@ static Coords currentLocation = { DEFAULT_LAT, DEFAULT_LON };
   * Function that reports the invalid command message to standard
   * output.
   */
-void printInvalidCommandMessage( char command[ ] ) {
-    scanf( "*[^n]*c", command );
-    printf( "Invalid command.\n" );
+void printInvalidCommandMessage( ) {
+    scanf( "%*[^\n]%*c" );
+    printf( "\nInvalid command\n" );
 }
 
 /**
@@ -51,7 +51,7 @@ void printInvalidCommandMessage( char command[ ] ) {
  * @return true since it is intended for the list command to list
  * all the Points in the PointList
  */
-bool list( Point const *pt, void *data )
+static bool list( Point const *pt, void *data )
 {
     return true;
 }
@@ -67,9 +67,10 @@ bool list( Point const *pt, void *data )
  * @return true if the given Point is within the given distance from
  * the user's current location or false otherwise
  */
-bool nearby( Point const *pt, double *data )
+static bool nearby( Point const *pt, void *data )
 {
-    return globalDistance( &pt->location, &currentLocation ) <= data;
+    double *distance = data;
+    return globalDistance( &pt->location, &currentLocation ) <= *distance;
 }
 
 /**
@@ -82,9 +83,10 @@ bool nearby( Point const *pt, double *data )
  * @return true if the given Point's description contains the given
  * word or false otherwise
  */
-bool match( Point const *pt, char *data )
+static bool match( Point const *pt, void *data )
 {
     int count = 0;
+    char *wordToMatch = data;
     char wordFromDesc[ MAX_WORD_LENGTH + 1 ];
     for ( int i = 0; pt->desc[ i ]; i++ ) {
         //If the word is longer than the expected max length of the
@@ -92,42 +94,87 @@ bool match( Point const *pt, char *data )
         // wordFromDesc array, and keep on iterating through the point
         // description until a space or a comma has been reached.
         if ( count >= MAX_WORD_LENGTH && 
-              ( pt->desc[ i ] != ' ' && pt->desc[ i ] != ',' ) ) {
+              ( pt->desc[ i ] != ' ' && pt->desc[ i ] != ',' 
+                 && pt->desc[ i ] != '-' && pt->desc[ i ] != '/' ) ) {
             wordFromDesc[ count ] = '\0';
             for ( int j = 0; wordFromDesc[ j ]; j++ ) {
                 wordFromDesc[ j ] = '\0';
             }
-            while ( pt->desc[ i ] != ' ' && pt->desc[ i ] != ',' ) {
+            while ( pt->desc[ i ] != ' ' && pt->desc[ i ] != ',' 
+                   && pt->desc[ i ] != '-' && pt->desc[ i ] != '/' ) {
                 i++;
             }
             count = 0;
             
         //If we reached a comma, and the word parsed is a valid length,
         //then start comparison
-        } else if ( pt->desc[ i ] == ' ' || pt->desc[ i ] == ',' ) {
+        } else if ( pt->desc[ i ] == ' ' || pt->desc[ i ] == ',' 
+                    || pt->desc[ i ] == '-' || pt->desc[ i ] == '/' ) {
             wordFromDesc[ count ] = '\0';
             bool matchFound = true;
             
             //First, do comparison. If we have found even one mismatch,
             //then the word is not a valid match.
-            for ( int j = 0; wordFromDesc[ j ]; j++ ) {
-                if ( wordFromDesc[ j ] != data[ j ] 
-                      || wordFromDesc[ j ] + TO_LOWERCASE != data[ j ] ) {
+            if ( strlen( wordFromDesc ) != strlen( wordToMatch ) ) {
+                matchFound = false;
+            }
+            for ( int j = 0; wordToMatch[ j ]; j++ ) {
+                if ( wordFromDesc[ j ] != wordToMatch[ j ] 
+                      && wordFromDesc[ j ] + TO_LOWERCASE != wordToMatch[ j ] ) {
                     matchFound = false;
                 }
+            }
+            
+            //If count is 0, that means we reached ', '.
+            if ( matchFound && count != 0 ) {
+                for ( int j = 0; wordFromDesc[ j ]; j++ ) {
+                    wordFromDesc[ j ] = '\0';
+                }
+                count = 0;
+                return true;
             }
             for ( int j = 0; wordFromDesc[ j ]; j++ ) {
                 wordFromDesc[ j ] = '\0';
             }
             count = 0;
-            
-            if ( matchFound ) {
-                return true;
-            }
+            matchFound = true;
         } else {
             wordFromDesc[ count ] = pt->desc[ i ];
             count++;
         }
+    }
+    //If we reached this point, that means we got to the null-terminator of
+    //the description. But, we need to make one last comparison just in case
+    if ( count < MAX_WORD_LENGTH ) {
+        wordFromDesc[ count ] = '\0';
+        bool matchFound = true;
+            
+        //First, do comparison. If we have found even one mismatch,
+        //then the word is not a valid match.
+        if ( strlen( wordFromDesc ) != strlen( wordToMatch ) ) {
+            matchFound = false;
+        }
+        for ( int j = 0; wordToMatch[ j ]; j++ ) {
+            if ( wordFromDesc[ j ] != wordToMatch[ j ] 
+                    && wordFromDesc[ j ] + TO_LOWERCASE != wordToMatch[ j ] ) {
+                matchFound = false;
+            }
+        }
+            
+        //If count is 0, that means we reached ', '.
+        if ( matchFound && count != 0 ) {
+            for ( int j = 0; wordFromDesc[ j ]; j++ ) {
+                wordFromDesc[ j ] = '\0';
+            }
+            count = 0;
+            return true;
+        }
+        for ( int j = 0; wordFromDesc[ j ]; j++ ) {
+            wordFromDesc[ j ] = '\0';
+        }
+    }
+    for ( int j = 0; wordFromDesc[ j ]; j++ ) {
+        wordFromDesc[ j ] = '\0';
     }
     return false;
 }
@@ -146,31 +193,36 @@ bool match( Point const *pt, char *data )
 int main( )
 {
     PointList *ptlist = createPointList( );
-    int num = 0;
+    int num = 1;
     char command[ 7 ];
     printf( "%d> ", num );
-    while ( scanf( "6%s", command ) != EOF ) {
+    while ( scanf( "%6s", command ) != EOF ) {
         if ( strcmp( command, "add" ) == 0 ) {
             //call addPoint here
             Point *pt = parsePoint( );
             if ( pt == NULL ) {
-                printInvalidCommandMessage( command );
-            }
-            if ( !addPoint( ptlist, pt ) ) {
-                printInvalidCommandMessage( command );
+                printInvalidCommandMessage( );
+            } else if ( !addPoint( ptlist, pt ) ) {
+                freePoint( pt );
+                printInvalidCommandMessage( );
+            } else {
+                printf( "\n" );
             }
         } else if ( strcmp ( command, "remove" ) == 0 ) {
             //call removePoint here
             char name[ MAX_NAME_LENGTH + 1 ];
-            int matches = scanf( "20%s", name );
+            int matches = scanf( "%20s", name );
             if ( matches == EOF ) {
                 freePointList( ptlist );
+                printf( "\n" );
                 return EXIT_SUCCESS;
-            } else if ( matches != 1 || getchar( ) != '\n' ) {
-                printInvalidCommandMessage( command );
+            } else if ( matches != 1 || scanf( "%*[^\n\t]" ) == 1 ) {
+                printInvalidCommandMessage( );
             } else {
                 if ( !removePoint( ptlist, name ) ) {
-                    printInvalidCommandMessage( command );
+                    printInvalidCommandMessage( );
+                } else {
+                    printf( "\n" );
                 }
             }
         } else if ( strcmp( command, "move" ) == 0 ) {
@@ -180,42 +232,50 @@ int main( )
             int matches = scanf( "%lf %lf", &lat, &lon );
             if ( matches == EOF ) {
                 freePointList( ptlist );
+                printf( "\n" );
                 return EXIT_SUCCESS;
             } else if ( matches != 2 ) {
-                printInvalidCommandMessage( command );
+                printInvalidCommandMessage( );
             } else {
-                currentLocation->lat = lat;
-                currentLocation->lon = lon;
+                currentLocation.lat = lat;
+                currentLocation.lon = lon;
+                printf( "\n" );
             }
         } else if ( strcmp( command, "list" ) == 0 ) {
             //call listPoints here, passing a list test function
-            if ( getchar( ) != '\n' || getchar( ) != EOF ) {
-                printInvalidCommandMessage( command );
+            if ( scanf( "%*[^\n\t]" ) == 1 ) {
+                printInvalidCommandMessage( );
+            } else {
+                listPoints( ptlist, &currentLocation, list, NULL );
+                printf( "\n" );
             }
-            listPoints( ptlist, &currentLocation, list, NULL );
         } else if ( strcmp( command, "nearby" ) == 0 ) {
             //call listPoints here, passing a nearby test function
             double distance;
-            if ( scanf( " %lf", &distance ) != 1 ) {
-                printInvalidCommandMessage( command );
+            int matches = scanf( " %lf", &distance );
+            if ( matches != 1 ) {
+                printInvalidCommandMessage( );
+            } else if ( scanf( "%*[^\n\t]" ) == 1 ) {
+                printInvalidCommandMessage( );
+            } else {
+                listPoints( ptlist, &currentLocation, nearby, &distance );
+                printf( "\n" );
             }
-            if ( getchar( ) != '\n' || getchar( ) != EOF ) {
-                printInvalidCommandMessage( command );
-            } 
-            listPoints( ptlist, &currentLocation, nearby, distance );
         } else if ( strcmp( command, "match" ) == 0 ) {
             //call listPoints here, passing a match test function
             char word[ MAX_WORD_LENGTH + 1 ];
-            if ( scanf( "%20[a-z]", word ) != 1 ) {
-                printInvalidCommandMessage( command );
+            int matches = scanf( " %20[a-z]", word );
+            if ( matches != 1 ) {
+                printInvalidCommandMessage( );
+            } else if ( scanf( "%*[^\n\t]" ) == 1 ) {
+                printInvalidCommandMessage( );
+            } else {
+                listPoints( ptlist, &currentLocation, match, word ); 
+                printf( "\n" );
             }
-            if ( getchar( ) != '\n' || getchar( ) != EOF ) {
-                printInvalidCommandMessage( command );
-            }
-            listPoints( ptlist, &currentLocation, match, word ); 
         } else if ( strcmp( command, "help" ) == 0 ) {
             //report valid commands
-            printf( "add <name> <latitude> <longitude> <description>\n" );
+            printf( "\nadd <name> <latitude> <longitude> <description>\n" );
             printf( "remove <name>\n" );
             printf( "move <latitude> <longitude>\n" );
             printf( "list\n" );
@@ -226,17 +286,19 @@ int main( )
         } else if ( strcmp( command, "quit" ) == 0 ) {
             //free point list, then close successfully
             freePointList( ptlist );
+            printf( "\n" );
             return EXIT_SUCCESS;
         } else {
             //Invalid command
-            printInvalidCommandMessage( command );
+            printInvalidCommandMessage( );
         }
         num++;
         printf( "%d> ", num );
-        
         //Reset command array
         for ( int i = 0; command[ i ]; i++ ) {
             command[ i ] = '\0';
         }
     }
+    freePointList( ptlist );
+    printf( "\n" );
 }
