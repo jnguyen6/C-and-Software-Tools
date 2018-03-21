@@ -178,6 +178,170 @@ static bool match( Point const *pt, void *data )
     }
     return false;
 }
+
+/**
+ * Function that executes the add command. If the point is null
+ * or is a duplicate, then an invalid command message is displayed.
+ * Otherwise, the point is added to the pointlist.
+ *
+ * @param ptlist the pointer to the point list
+ */
+void executeAddCommand( PointList *ptlist )
+{
+    Point *pt = parsePoint( );
+    if ( pt == NULL ) {
+        printInvalidCommandMessage( );
+    } else if ( !addPoint( ptlist, pt ) ) {
+        freePoint( pt );
+        printInvalidCommandMessage( );
+    } else {
+        printf( "\n" );
+    }
+}
+
+/**
+ * Function that executes the remove command. If the given point
+ * name is invalid or is too long, then an invalid command message
+ * is displayed. Otherwise, the point is removed from the pointlist.
+ *
+ * @param ptlist the pointer to the pointlist
+ */
+void executeRemoveCommand( PointList *ptlist )
+{
+    char name[ MAX_NAME_LENGTH + 1 ];
+    int matches = scanf( "%20s", name );
+    if ( matches == EOF ) {
+        freePointList( ptlist );
+        printf( "\n" );
+        exit( EXIT_SUCCESS );
+    } else if ( matches != 1 || scanf( "%*[^\n\t]" ) == 1 ) {
+        printInvalidCommandMessage( );
+    } else {
+        if ( !removePoint( ptlist, name ) ) {
+            printInvalidCommandMessage( );
+        } else {
+            printf( "\n" );
+        }
+    }
+}
+
+/**
+ * Function that executes the move command. If the given latitude
+ * and/or longitude values is invalid, then an invalid command
+ * message is displayed. Otherwise, the user's current location
+ * is updated.
+ *
+ * @param ptlist the pointer to the pointlist
+ */
+void executeMoveCommand( PointList *ptlist )
+{
+    double lat;
+    double lon;
+    int matches = scanf( "%lf %lf", &lat, &lon );
+    if ( matches == EOF ) {
+        freePointList( ptlist );
+        printf( "\n" );
+        exit( EXIT_SUCCESS );
+    } else if ( matches != 2 ) {
+        printInvalidCommandMessage( );
+    } else {
+        currentLocation.lat = lat;
+        currentLocation.lon = lon;
+        printf( "\n" );
+    }
+}
+
+/**
+ * Function that executes the list command. If there are
+ * any additional input read, then an invalid command message
+ * is displayed. Otherwise, the function will display a list of
+ * all the points in the pointlist.
+ *
+ * @param ptlist the pointer to the pointlist
+ */
+void executeListCommand( PointList *ptlist )
+{
+    if ( scanf( "%*[^\n\t]" ) == 1 ) {
+        printInvalidCommandMessage( );
+    } else {
+        listPoints( ptlist, &currentLocation, list, NULL );
+        printf( "\n" );
+    }
+}
+
+/**
+ * Function that executes the nearby command. If the given distance
+ * is invalid, or if there are any additional input read after the
+ * distance, then an invalid command message is displayed. Otherwise,
+ * the function will display a list of all the points in the pointlist
+ * that is within the given distance, in miles.
+ *
+ * @param ptlist the pointer to the pointlist
+ */
+void executeNearbyCommand( PointList *ptlist )
+{
+    double distance;
+    int matches = scanf( " %lf", &distance );
+    if ( matches != 1 ) {
+        printInvalidCommandMessage( );
+    } else if ( scanf( "%*[^\n\t]" ) == 1 ) {
+        printInvalidCommandMessage( );
+    } else {
+        listPoints( ptlist, &currentLocation, nearby, &distance );
+        printf( "\n" );
+    }
+}
+
+/**
+ * Function that executes the match command. If the given word is
+ * too long or is invalid, then an invalid command message is displayed.
+ * Otherwise, the function will display a list of all the points in the
+ * pointlist that contains the given word.
+ *
+ * @param ptlist the pointer to the pointlist
+ */
+void executeMatchCommand( PointList *ptlist )
+{
+    char word[ MAX_WORD_LENGTH + 1 ];
+    int matches = scanf( " %20[a-z]", word );
+    if ( matches != 1 ) {
+        printInvalidCommandMessage( );
+    } else if ( scanf( "%*[^\n\t]" ) == 1 ) {
+        printInvalidCommandMessage( );
+    } else {
+        listPoints( ptlist, &currentLocation, match, word ); 
+        printf( "\n" );
+    }
+}
+
+/**
+ * Function that executes the list command. A list of all the commands
+ * the program supports is displayed.
+ */
+void executeHelpCommand( )
+{
+    printf( "\nadd <name> <latitude> <longitude> <description>\n" );
+    printf( "remove <name>\n" );
+    printf( "move <latitude> <longitude>\n" );
+    printf( "list\n" );
+    printf( "nearby <distance>\n" );
+    printf( "match <word>\n" );
+    printf( "help\n" );
+    printf( "quit\n" );
+}
+
+/**
+ * Function that executes the quit command. The given pointlist is
+ * freed from memory, and the program exits successfully.
+ *
+ * @param ptlist the pointer to the pointlist
+ */
+void executeQuitCommand( PointList *ptlist )
+{
+    freePointList( ptlist );
+    printf( "\n" );
+    exit( EXIT_SUCCESS );
+}
  
 /**
  * The starting point of the program. The function reads and
@@ -199,95 +363,28 @@ int main( )
     while ( scanf( "%6s", command ) != EOF ) {
         if ( strcmp( command, "add" ) == 0 ) {
             //call addPoint here
-            Point *pt = parsePoint( );
-            if ( pt == NULL ) {
-                printInvalidCommandMessage( );
-            } else if ( !addPoint( ptlist, pt ) ) {
-                freePoint( pt );
-                printInvalidCommandMessage( );
-            } else {
-                printf( "\n" );
-            }
+            executeAddCommand( ptlist );
         } else if ( strcmp ( command, "remove" ) == 0 ) {
             //call removePoint here
-            char name[ MAX_NAME_LENGTH + 1 ];
-            int matches = scanf( "%20s", name );
-            if ( matches == EOF ) {
-                freePointList( ptlist );
-                printf( "\n" );
-                return EXIT_SUCCESS;
-            } else if ( matches != 1 || scanf( "%*[^\n\t]" ) == 1 ) {
-                printInvalidCommandMessage( );
-            } else {
-                if ( !removePoint( ptlist, name ) ) {
-                    printInvalidCommandMessage( );
-                } else {
-                    printf( "\n" );
-                }
-            }
+            executeRemoveCommand( ptlist );
         } else if ( strcmp( command, "move" ) == 0 ) {
             //Change user's current location here
-            double lat;
-            double lon;
-            int matches = scanf( "%lf %lf", &lat, &lon );
-            if ( matches == EOF ) {
-                freePointList( ptlist );
-                printf( "\n" );
-                return EXIT_SUCCESS;
-            } else if ( matches != 2 ) {
-                printInvalidCommandMessage( );
-            } else {
-                currentLocation.lat = lat;
-                currentLocation.lon = lon;
-                printf( "\n" );
-            }
+            executeMoveCommand( ptlist );
         } else if ( strcmp( command, "list" ) == 0 ) {
             //call listPoints here, passing a list test function
-            if ( scanf( "%*[^\n\t]" ) == 1 ) {
-                printInvalidCommandMessage( );
-            } else {
-                listPoints( ptlist, &currentLocation, list, NULL );
-                printf( "\n" );
-            }
+            executeListCommand( ptlist );
         } else if ( strcmp( command, "nearby" ) == 0 ) {
             //call listPoints here, passing a nearby test function
-            double distance;
-            int matches = scanf( " %lf", &distance );
-            if ( matches != 1 ) {
-                printInvalidCommandMessage( );
-            } else if ( scanf( "%*[^\n\t]" ) == 1 ) {
-                printInvalidCommandMessage( );
-            } else {
-                listPoints( ptlist, &currentLocation, nearby, &distance );
-                printf( "\n" );
-            }
+            executeNearbyCommand( ptlist );
         } else if ( strcmp( command, "match" ) == 0 ) {
             //call listPoints here, passing a match test function
-            char word[ MAX_WORD_LENGTH + 1 ];
-            int matches = scanf( " %20[a-z]", word );
-            if ( matches != 1 ) {
-                printInvalidCommandMessage( );
-            } else if ( scanf( "%*[^\n\t]" ) == 1 ) {
-                printInvalidCommandMessage( );
-            } else {
-                listPoints( ptlist, &currentLocation, match, word ); 
-                printf( "\n" );
-            }
+            executeMatchCommand( ptlist );
         } else if ( strcmp( command, "help" ) == 0 ) {
             //report valid commands
-            printf( "\nadd <name> <latitude> <longitude> <description>\n" );
-            printf( "remove <name>\n" );
-            printf( "move <latitude> <longitude>\n" );
-            printf( "list\n" );
-            printf( "nearby <distance>\n" );
-            printf( "match <word>\n" );
-            printf( "help\n" );
-            printf( "quit\n" );
+            executeHelpCommand( );
         } else if ( strcmp( command, "quit" ) == 0 ) {
             //free point list, then close successfully
-            freePointList( ptlist );
-            printf( "\n" );
-            return EXIT_SUCCESS;
+            executeQuitCommand( ptlist );
         } else {
             //Invalid command
             printInvalidCommandMessage( );
@@ -301,4 +398,5 @@ int main( )
     }
     freePointList( ptlist );
     printf( "\n" );
+    return EXIT_SUCCESS;
 }
