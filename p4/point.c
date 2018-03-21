@@ -32,36 +32,38 @@
 
 Point *parsePoint( )
 {
-    char name[ MAX_NAME_LENGTH + 1 ];
+    Point *pt = (Point *)malloc( sizeof( *pt ) );
+    //char name[ MAX_NAME_LENGTH + 1 ];
     double lat;
     double lon;
     char description[ MAX_DESC_LENGTH + 1 ];
-    if ( scanf( "%20s %lf %lf %1024[^\n\t]", name, &lat, &lon, description ) != 4 ) {
+    if ( scanf( "%20s %lf %lf %1024[^\n\t]", pt->name, &lat, &lon, description ) != 4 ) {
+        freePoint( pt );
         return NULL;
     }
     description[ MAX_DESC_LENGTH ] = '\0';
     if ( lat < MIN_LAT_VAL || lat > MAX_LAT_VAL ) {
+        freePoint( pt );
         return NULL;
     }
     if ( lon < MIN_LON_VAL || lon > MAX_LON_VAL ) {
+        freePoint( pt );
         return NULL;
     }
     char temp[ MAX_DESC_LENGTH + 1 ];
     int matches = scanf( "%[^\n\t]", temp );
     if ( matches == 1 ) {
+        freePoint( pt );
         return NULL;
     } else {
-        Point *pt = (Point *)malloc( sizeof( Point ) );
-  //       for ( int i = 0; pt->name[ i ]; i++ ) {
-//             pt->name[ i ] = '\0';
+        //Point *pt = (Point *)malloc( sizeof( *pt ) );
+//         char *nm = (char *)malloc( strlen( name ) + 1 * sizeof( char ) );
+//         for ( int i = 0; name[ i ]; i++ ) {
+//             nm[ i ] = name[ i ];
 //         }
-        char *nm = (char *)malloc( strlen( name ) + 1 * sizeof( char ) );
-        for ( int i = 0; name[ i ]; i++ ) {
-            nm[ i ] = name[ i ];
-        }
-        nm[ strlen( name ) ] = '\0';
-        pt->name = nm;
-    //     for ( int i = 0; name[ i ]; i++ ) {
+//         nm[ strlen( name ) ] = '\0';
+//         pt->name = nm;
+   //      for ( int i = 0; name[ i ]; i++ ) {
 //             pt->name[ i ] = name[ i ];
 //         }
         pt->location.lat = lat;
@@ -82,22 +84,19 @@ Point *parsePoint( )
             description[ i ] = '\0';
         }
         
-        for ( int i = 0; name[ i ]; i++ ) {
-            name[ i ] = '\0';
-        }
+ //        for ( int i = 0; name[ i ]; i++ ) {
+//             name[ i ] = '\0';
+//         }
         return pt;
     }
-    for ( int i = 0; name[ i ]; i++ ) {
-        name[ i ] = '\0';
-    }
+//     for ( int i = 0; name[ i ]; i++ ) {
+//         name[ i ] = '\0';
+//     }
 }
 
 void freePoint( Point *pt )
 {
-//     for ( int i = 0; pt->name[ i ]; i++ ) {
-//         pt->name[ i ] = '\0';
-//     }
-    free( pt->name );
+    //free( pt->name );
     free( pt->desc );
     free( pt );
 }

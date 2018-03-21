@@ -30,8 +30,8 @@ typedef struct {
  */
 typedef struct {
     /** A character array that represents the name of the point of interest. */
-    //char name[ MAX_NAME_LENGTH + 1 ];
-    char *name;
+    char name[ MAX_NAME_LENGTH + 1 ];
+    //char *name;
     /** The location of the point of interest, in latitude and longitude. */
     Coords location;
     /** 
