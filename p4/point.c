@@ -33,7 +33,6 @@
 Point *parsePoint( )
 {
     Point *pt = (Point *)malloc( sizeof( *pt ) );
-    //char name[ MAX_NAME_LENGTH + 1 ];
     double lat;
     double lon;
     char description[ MAX_DESC_LENGTH + 1 ];
@@ -56,47 +55,24 @@ Point *parsePoint( )
         freePoint( pt );
         return NULL;
     } else {
-        //Point *pt = (Point *)malloc( sizeof( *pt ) );
-//         char *nm = (char *)malloc( strlen( name ) + 1 * sizeof( char ) );
-//         for ( int i = 0; name[ i ]; i++ ) {
-//             nm[ i ] = name[ i ];
-//         }
-//         nm[ strlen( name ) ] = '\0';
-//         pt->name = nm;
-   //      for ( int i = 0; name[ i ]; i++ ) {
-//             pt->name[ i ] = name[ i ];
-//         }
         pt->location.lat = lat;
         pt->location.lon = lon;
-     //    pt->desc = (char *)malloc( strlen( description ) + 1 * sizeof( char ) );
-//         for ( int i = 0; description[ i ]; i++ ) {
-//             pt->desc[ i ] = description[ i ];
-//         }
         char *desc = (char *)malloc( strlen( description ) + 1 * sizeof( char ) );
         for ( int i = 0; description[ i ]; i++ ) {
             desc[ i ] = description[ i ];
         }
         desc[ strlen( description ) ] = '\0';
         pt->desc = desc;
-        //free( desc );
         
         for ( int i = 0; description[ i ]; i++ ) {
             description[ i ] = '\0';
         }
-        
- //        for ( int i = 0; name[ i ]; i++ ) {
-//             name[ i ] = '\0';
-//         }
         return pt;
     }
-//     for ( int i = 0; name[ i ]; i++ ) {
-//         name[ i ] = '\0';
-//     }
 }
 
 void freePoint( Point *pt )
 {
-    //free( pt->name );
     free( pt->desc );
     free( pt );
 }
@@ -110,7 +86,6 @@ void reportPoint( Point const *pt, Coords const *ref )
 
 double globalDistance( Coords const *c1, Coords const *c2 )
 {
-    //Convert coordinates into vectors
     double v1[] = { cos( c1->lon * DEG_TO_RAD ) * cos( c1->lat * DEG_TO_RAD ),
                     sin( c1->lon * DEG_TO_RAD ) * cos( c1->lat * DEG_TO_RAD ),
                     sin( c1->lat * DEG_TO_RAD ) };

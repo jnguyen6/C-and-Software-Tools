@@ -40,9 +40,8 @@ PointList *createPointList( );
 
 /**
  * Frees all the dynamically allocated memory used by the PointList
- * struct. Freeing the memory includes the PointList struct itself,
- * the array of pointers to Points, and the Points that are in
- * the list.
+ * struct. Freeing the memory includes the PointList struct itself and
+ * all of the Points that are in the PointList.
  *
  * @param ptlist the pointer to the PointList struct
  */

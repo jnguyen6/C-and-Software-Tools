@@ -62,7 +62,6 @@ PointList *createPointList( )
     PointList *ptlist = (PointList *)malloc( sizeof( PointList ) );
     ptlist->list = (Point **)malloc( INITIAL_CAP * sizeof( Point* ) );
     for ( int i = 0; i < INITIAL_CAP; i++ ) {
-        //ptlist->list[ i ] = (Point *)malloc( sizeof( Point ) );
         ptlist->list[ i ] = NULL;
     }
     ptlist->count = 0;
@@ -103,9 +102,7 @@ bool removePoint( PointList *ptlist, char const *name )
 {
      //To remove a POI from the list, create new array, and update
     //the pointer to the new list
-   // Point **newList = (Point **)malloc( ptlist->cap * sizeof( Point ) );
     bool pointFound = false;
-    //int index = 0;
     int indexToRemove = 0;
     for ( int i = 0; i < ptlist->count; i++ ) {
         if ( strcmp( ptlist->list[ i ]->name, name ) == 0 ) {
@@ -121,11 +118,8 @@ bool removePoint( PointList *ptlist, char const *name )
         ptlist->list[ ptlist->count - 1 ] = pt;
         freePoint( ptlist->list[ ptlist->count - 1 ] );
         ptlist->list[ ptlist->count - 1 ] = NULL;
-        //ptlist->list[ ptlist->count - 1 ] = (Point *)malloc( sizeof( Point ) );
         ptlist->count--;
     }
-    //free( ptlist->list );
-    //ptlist->list = newList;
     return pointFound;
 }
 
@@ -134,22 +128,11 @@ void listPoints( PointList *ptlist, Coords const *ref, bool
 {
     if ( ptlist->count != 0 ) {
         currentLoc = *ref;
-  //       Point **listToSort = (Point **)malloc( ptlist->count * sizeof( Point* ) );
-//         for ( int i = 0; i < ptlist->count; i++ ) {
-//             listToSort[ i ] = ptlist->list[ i ];
-//         }
-//         qsort( listToSort, ptlist->count, sizeof( listToSort[ 0 ] ), pointComp );
-//         for ( int i = 0; i < ptlist->count; i++ ) {
-//             if ( test( listToSort[ i ], data ) ) {
-//                 reportPoint( listToSort[ i ], ref );
-//             }
-//         }
-//         free( listToSort );
         //First, sort the points
         qsort( ptlist->list, ptlist->count, sizeof( ptlist->list[ 0 ] ), pointComp );
         for ( int i = 0; i < ptlist->count; i++ ) {
-           //  If the point is valid, depending on certain functions, then
-//             print the point. Otherwise, ignore the point
+            //If the point is valid, depending on certain functions, then
+            //print the point. Otherwise, ignore the point
             if ( test( ptlist->list[ i ], data ) ) {
                reportPoint( ptlist->list[ i ], ref );
             }

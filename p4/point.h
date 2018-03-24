@@ -76,7 +76,9 @@ void reportPoint( Point const *pt, Coords const *ref );
 
 /**
  * Determines and returns the distance between the given two addresses
- * of the Coords struct, in miles.
+ * of the Coords struct, in miles. Note that the algorithm used to find
+ * the distance between the two coordinates is adapted and heavily
+ * reused from gps.c from exercise 13, provided by David Sturgill.
  *
  * @param c1 the pointer to the address of the first Coords struct
  * @param c2 the pointer to the address of the second Coords struct

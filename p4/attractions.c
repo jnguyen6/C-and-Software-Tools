@@ -30,6 +30,7 @@
 #define MAX_WORD_LENGTH 20
 /** Value used to convert ASCII uppercase letters to lowercase letters. */
 #define TO_LOWERCASE 32
+
 /** The user's current location. */
 static Coords currentLocation = { DEFAULT_LAT, DEFAULT_LON };
  
@@ -180,11 +181,11 @@ static bool match( Point const *pt, void *data )
 }
 
 /**
- * Function that executes the add command. If the point is null
+ * Function that executes the add command. If the Point is null
  * or is a duplicate, then an invalid command message is displayed.
- * Otherwise, the point is added to the pointlist.
+ * Otherwise, the Point is added to the PointList.
  *
- * @param ptlist the pointer to the point list
+ * @param ptlist the pointer to the PointList
  */
 void executeAddCommand( PointList *ptlist )
 {
@@ -200,9 +201,9 @@ void executeAddCommand( PointList *ptlist )
 }
 
 /**
- * Function that executes the remove command. If the given point
+ * Function that executes the remove command. If the given Point
  * name is invalid or is too long, then an invalid command message
- * is displayed. Otherwise, the point is removed from the pointlist.
+ * is displayed. Otherwise, the Point is removed from the pointlist.
  *
  * @param ptlist the pointer to the pointlist
  */
@@ -231,7 +232,7 @@ void executeRemoveCommand( PointList *ptlist )
  * message is displayed. Otherwise, the user's current location
  * is updated.
  *
- * @param ptlist the pointer to the pointlist
+ * @param ptlist the pointer to the PointList
  */
 void executeMoveCommand( PointList *ptlist )
 {
@@ -255,9 +256,9 @@ void executeMoveCommand( PointList *ptlist )
  * Function that executes the list command. If there are
  * any additional input read, then an invalid command message
  * is displayed. Otherwise, the function will display a list of
- * all the points in the pointlist.
+ * all the Points in the PointList.
  *
- * @param ptlist the pointer to the pointlist
+ * @param ptlist the pointer to the PointList
  */
 void executeListCommand( PointList *ptlist )
 {
@@ -273,10 +274,10 @@ void executeListCommand( PointList *ptlist )
  * Function that executes the nearby command. If the given distance
  * is invalid, or if there are any additional input read after the
  * distance, then an invalid command message is displayed. Otherwise,
- * the function will display a list of all the points in the pointlist
+ * the function will display a list of all the Points in the Pointlist
  * that is within the given distance, in miles.
  *
- * @param ptlist the pointer to the pointlist
+ * @param ptlist the pointer to the PointList
  */
 void executeNearbyCommand( PointList *ptlist )
 {
@@ -331,10 +332,10 @@ void executeHelpCommand( )
 }
 
 /**
- * Function that executes the quit command. The given pointlist is
+ * Function that executes the quit command. The given PointList is
  * freed from memory, and the program exits successfully.
  *
- * @param ptlist the pointer to the pointlist
+ * @param ptlist the pointer to the PointList
  */
 void executeQuitCommand( PointList *ptlist )
 {
