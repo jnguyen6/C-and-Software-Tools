@@ -30,6 +30,10 @@
 #define MAX_WORD_LENGTH 20
 /** Value used to convert ASCII uppercase letters to lowercase letters. */
 #define TO_LOWERCASE 32
+/** The maximum number of characters that a command can have. */
+#define MAX_COMMAND_LEN 7
+/** The number of valid arguments for latitude and longitude values. */
+#define NUM_VALID_ANGULAR_DISTANCE 2
 
 /** The user's current location. */
 static Coords currentLocation = { DEFAULT_LAT, DEFAULT_LON };
@@ -243,7 +247,7 @@ void executeMoveCommand( PointList *ptlist )
         freePointList( ptlist );
         printf( "\n" );
         exit( EXIT_SUCCESS );
-    } else if ( matches != 2 ) {
+    } else if ( matches != NUM_VALID_ANGULAR_DISTANCE ) {
         printInvalidCommandMessage( );
     } else {
         currentLocation.lat = lat;
@@ -359,7 +363,7 @@ int main( )
 {
     PointList *ptlist = createPointList( );
     int num = 1;
-    char command[ 7 ];
+    char command[ MAX_COMMAND_LEN ];
     printf( "%d> ", num );
     while ( scanf( "%6s", command ) != EOF ) {
         if ( strcmp( command, "add" ) == 0 ) {

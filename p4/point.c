@@ -1,7 +1,7 @@
 /**
- * Program that creates a new point of interest, frees the 
+ * Program that creates a new point of interest, frees the
  * given point of interest from a dynamically allocated memory,
- * prints the description of the given point of interest, and 
+ * prints the description of the given point of interest, and
  * determines and prints the distance between the given point
  * of interest and the user's current location.
  *
@@ -29,6 +29,8 @@
 #define MIN_LON_VAL -180
 /** The maximum longitude value. */
 #define MAX_LON_VAL 180
+/** The number of valid input arguments that can be scanned. */
+#define MAX_NUM_VALID_ARGUMENTS
 
 Point *parsePoint( )
 {
@@ -36,7 +38,8 @@ Point *parsePoint( )
     double lat;
     double lon;
     char description[ MAX_DESC_LENGTH + 1 ];
-    if ( scanf( "%20s %lf %lf %1024[^\n\t]", pt->name, &lat, &lon, description ) != 4 ) {
+    if ( scanf( "%20s %lf %lf %1024[^\n\t]", pt->name, &lat, &lon, description )
+                != MAX_NUM_VALID_ARGUMENTS ) {
         freePoint( pt );
         return NULL;
     }

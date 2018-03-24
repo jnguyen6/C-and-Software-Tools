@@ -20,7 +20,7 @@
 typedef struct {
     /** Latitude value for a global location. */
     double lat;
-  
+
     /** Longitude value for a global location. */
     double lon;
 } Coords;
@@ -34,7 +34,7 @@ typedef struct {
     //char *name;
     /** The location of the point of interest, in latitude and longitude. */
     Coords location;
-    /** 
+    /**
      * A character pointer to the character array that contains
      * the text description of the point of interest.
      */

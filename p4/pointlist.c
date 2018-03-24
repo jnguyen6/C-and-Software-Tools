@@ -46,7 +46,7 @@ int pointComp( const void *pptra, const void *pptrb )
     Point *a = *(Point **) pptra;
     Point *b = *(Point **) pptrb;
     
-    if ( globalDistance( &(a->location), &currentLoc ) 
+    if ( globalDistance( &(a->location), &currentLoc )
          < globalDistance( &(b->location), &currentLoc ) ) {
         return -1;
     }
@@ -139,4 +139,3 @@ void listPoints( PointList *ptlist, Coords const *ref, bool
         }
     }
 }
-
