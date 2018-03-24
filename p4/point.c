@@ -30,7 +30,7 @@
 /** The maximum longitude value. */
 #define MAX_LON_VAL 180
 /** The number of valid input arguments that can be scanned. */
-#define MAX_NUM_VALID_ARGUMENTS
+#define MAX_NUM_VALID_ARGUMENTS 4
 
 Point *parsePoint( )
 {

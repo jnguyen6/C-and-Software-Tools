@@ -37,7 +37,7 @@
 
 /** The user's current location. */
 static Coords currentLocation = { DEFAULT_LAT, DEFAULT_LON };
- 
+
  /**
   * Function that reports the invalid command message to standard
   * output.
@@ -98,14 +98,14 @@ static bool match( Point const *pt, void *data )
         //word to match, then the word is invalid So, reset the
         // wordFromDesc array, and keep on iterating through the point
         // description until a space or a comma has been reached.
-        if ( count >= MAX_WORD_LENGTH && 
-              ( pt->desc[ i ] != ' ' && pt->desc[ i ] != ',' 
+        if ( count >= MAX_WORD_LENGTH &&
+              ( pt->desc[ i ] != ' ' && pt->desc[ i ] != ','
                  && pt->desc[ i ] != '-' && pt->desc[ i ] != '/' ) ) {
             wordFromDesc[ count ] = '\0';
             for ( int j = 0; wordFromDesc[ j ]; j++ ) {
                 wordFromDesc[ j ] = '\0';
             }
-            while ( pt->desc[ i ] != ' ' && pt->desc[ i ] != ',' 
+            while ( pt->desc[ i ] != ' ' && pt->desc[ i ] != ','
                    && pt->desc[ i ] != '-' && pt->desc[ i ] != '/' ) {
                 i++;
             }
@@ -113,7 +113,7 @@ static bool match( Point const *pt, void *data )
             
         //If we reached a comma, and the word parsed is a valid length,
         //then start comparison
-        } else if ( pt->desc[ i ] == ' ' || pt->desc[ i ] == ',' 
+        } else if ( pt->desc[ i ] == ' ' || pt->desc[ i ] == ','
                     || pt->desc[ i ] == '-' || pt->desc[ i ] == '/' ) {
             wordFromDesc[ count ] = '\0';
             bool matchFound = true;
@@ -124,7 +124,7 @@ static bool match( Point const *pt, void *data )
                 matchFound = false;
             }
             for ( int j = 0; wordToMatch[ j ]; j++ ) {
-                if ( wordFromDesc[ j ] != wordToMatch[ j ] 
+                if ( wordFromDesc[ j ] != wordToMatch[ j ]
                       && wordFromDesc[ j ] + TO_LOWERCASE != wordToMatch[ j ] ) {
                     matchFound = false;
                 }
@@ -153,19 +153,19 @@ static bool match( Point const *pt, void *data )
     if ( count < MAX_WORD_LENGTH ) {
         wordFromDesc[ count ] = '\0';
         bool matchFound = true;
-            
+        
         //First, do comparison. If we have found even one mismatch,
         //then the word is not a valid match.
         if ( strlen( wordFromDesc ) != strlen( wordToMatch ) ) {
             matchFound = false;
         }
         for ( int j = 0; wordToMatch[ j ]; j++ ) {
-            if ( wordFromDesc[ j ] != wordToMatch[ j ] 
+            if ( wordFromDesc[ j ] != wordToMatch[ j ]
                     && wordFromDesc[ j ] + TO_LOWERCASE != wordToMatch[ j ] ) {
                 matchFound = false;
             }
         }
-            
+        
         //If count is 0, that means we reached ', '.
         if ( matchFound && count != 0 ) {
             for ( int j = 0; wordFromDesc[ j ]; j++ ) {
@@ -314,7 +314,7 @@ void executeMatchCommand( PointList *ptlist )
     } else if ( scanf( "%*[^\n\t]" ) == 1 ) {
         printInvalidCommandMessage( );
     } else {
-        listPoints( ptlist, &currentLocation, match, word ); 
+        listPoints( ptlist, &currentLocation, match, word );
         printf( "\n" );
     }
 }
@@ -347,7 +347,7 @@ void executeQuitCommand( PointList *ptlist )
     printf( "\n" );
     exit( EXIT_SUCCESS );
 }
- 
+
 /**
  * The starting point of the program. The function reads and
  * processes input provided by the user. The function first reads
