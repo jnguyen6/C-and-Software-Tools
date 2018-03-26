@@ -35,6 +35,7 @@
 Point *parsePoint( )
 {
     Point *pt = (Point *)malloc( sizeof( *pt ) );
+    pt->desc = NULL;
     double lat;
     double lon;
     char description[ MAX_DESC_LENGTH + 1 ];
@@ -76,7 +77,9 @@ Point *parsePoint( )
 
 void freePoint( Point *pt )
 {
-    free( pt->desc );
+    if ( pt->desc != NULL ) {
+        free( pt->desc );
+    }
     free( pt );
 }
 

@@ -15,4 +15,4 @@ point.o: point.h
 clean:
 	rm -f attractions.o pointlist.o point.o
 	rm -f attractions
-	rm -f output-*.txt
+	rm -f output.txt

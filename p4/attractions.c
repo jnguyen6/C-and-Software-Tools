@@ -34,6 +34,14 @@
 #define MAX_COMMAND_LEN 7
 /** The number of valid arguments for latitude and longitude values. */
 #define NUM_VALID_ANGULAR_DISTANCE 2
+/** The ASCII code for 'A'. */
+#define ASCII_A 65
+/** The ASCII code for 'Z'. */
+#define ASCII_Z 90
+/** The ASCII code for 'a'. */
+#define ASCII_LOWER_A 97
+/** The ASCII code for 'z'. */
+#define ASCII_LOWER_Z 122
 
 /** The user's current location. */
 static Coords currentLocation = { DEFAULT_LAT, DEFAULT_LON };
@@ -99,22 +107,20 @@ static bool match( Point const *pt, void *data )
         // wordFromDesc array, and keep on iterating through the point
         // description until a space or a comma has been reached.
         if ( count >= MAX_WORD_LENGTH &&
-              ( pt->desc[ i ] != ' ' && pt->desc[ i ] != ','
-                 && pt->desc[ i ] != '-' && pt->desc[ i ] != '/' ) ) {
+              ( (pt->desc[ i ] >= ASCII_A && pt->desc[ i ] <= ASCII_Z)
+              || ( pt->desc[ i ] >= ASCII_LOWER_A && pt->desc[ i ] <= ASCII_LOWER_Z ) ) ) {
             wordFromDesc[ count ] = '\0';
             for ( int j = 0; wordFromDesc[ j ]; j++ ) {
                 wordFromDesc[ j ] = '\0';
             }
-            while ( pt->desc[ i ] != ' ' && pt->desc[ i ] != ','
-                   && pt->desc[ i ] != '-' && pt->desc[ i ] != '/' ) {
+            while ( ( pt->desc[ i ] >= ASCII_A && pt->desc[ i ] <= ASCII_Z ) 
+                || ( pt->desc[ i ] >= ASCII_LOWER_A && pt->desc[ i ] <= ASCII_LOWER_Z ) ) {
                 i++;
             }
             count = 0;
             
-        //If we reached a comma, and the word parsed is a valid length,
-        //then start comparison
-        } else if ( pt->desc[ i ] == ' ' || pt->desc[ i ] == ','
-                    || pt->desc[ i ] == '-' || pt->desc[ i ] == '/' ) {
+        } else if ( pt->desc[ i ] < ASCII_A || ( pt->desc[ i ] > ASCII_Z 
+                    && pt->desc[ i ] <  ASCII_LOWER_A ) || pt->desc[ i ] > ASCII_LOWER_Z ) {
             wordFromDesc[ count ] = '\0';
             bool matchFound = true;
             

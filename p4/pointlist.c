@@ -22,7 +22,7 @@
 #define RESIZE_MULTIPLIER 2
 
 /** Holds the user's current location. */
-static Coords currentLoc;
+Coords currentLoc;
 
 /**
  * A comparison function that compares the two pointers to
