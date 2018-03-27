@@ -1,0 +1,4 @@
+add talley 35.783822 -78.671004 I carefully selected the words on this line of text so this word right here would just barely fit on a line.
+add brickyard 35.786668 -78.670706 This line of text is different. For this I chose them so that this word here would not quite fit on the first line.
+list
+quit

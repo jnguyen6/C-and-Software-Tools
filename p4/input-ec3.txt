@@ -1,0 +1,4 @@
+add talley 35.783822 -78.671004 You can-only-break-a-line-at-a-space-so-this-long-unbroken-string-of-characters-will-have-to-go-on-one-long-line but these words can go on the next line.
+add brickyard 35.786668 -78.670706 If   you      have     multiple     spaces    between     words,     you     are    expected   to    keep    them,   except      where   there's    a    line   break.    Across   a    line   break,    you   discard   all   the   spaces  (  since   the   line   break   is   already   doing    the   job   of    separating   the    words   ).
+list
+quit
