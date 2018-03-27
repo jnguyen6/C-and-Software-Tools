@@ -100,7 +100,7 @@ static bool match( Point const *pt, void *data )
 {
     int count = 0;
     char *wordToMatch = data;
-    char wordFromDesc[ MAX_WORD_LENGTH + 1 ];
+    char wordFromDesc[ MAX_WORD_LENGTH + 1 ] = "";
     for ( int i = 0; pt->desc[ i ]; i++ ) {
         //If the word is longer than the expected max length of the
         //word to match, then the word is invalid So, reset the
@@ -113,13 +113,13 @@ static bool match( Point const *pt, void *data )
             for ( int j = 0; wordFromDesc[ j ]; j++ ) {
                 wordFromDesc[ j ] = '\0';
             }
-            while ( ( pt->desc[ i ] >= ASCII_A && pt->desc[ i ] <= ASCII_Z ) 
+            while ( ( pt->desc[ i ] >= ASCII_A && pt->desc[ i ] <= ASCII_Z )
                 || ( pt->desc[ i ] >= ASCII_LOWER_A && pt->desc[ i ] <= ASCII_LOWER_Z ) ) {
                 i++;
             }
             count = 0;
             
-        } else if ( pt->desc[ i ] < ASCII_A || ( pt->desc[ i ] > ASCII_Z 
+        } else if ( pt->desc[ i ] < ASCII_A || ( pt->desc[ i ] > ASCII_Z
                     && pt->desc[ i ] <  ASCII_LOWER_A ) || pt->desc[ i ] > ASCII_LOWER_Z ) {
             wordFromDesc[ count ] = '\0';
             bool matchFound = true;

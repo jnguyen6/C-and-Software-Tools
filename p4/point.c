@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <stdbool.h>
 
 /** The maximum length of the text description of the point of interest. */
 #define MAX_DESC_LENGTH 1024
@@ -31,6 +32,10 @@
 #define MAX_LON_VAL 180
 /** The number of valid input arguments that can be scanned. */
 #define MAX_NUM_VALID_ARGUMENTS 4
+/** The maximum number of characters that can be printed for
+ * a description on a single line.
+ */
+#define MAX_CHAR 75
 
 Point *parsePoint( )
 {
@@ -87,7 +92,100 @@ void reportPoint( Point const *pt, Coords const *ref )
 {
     double distance = globalDistance( &pt->location, ref );
     printf( "\n%s (%.1f miles)\n", pt->name, distance );
-    printf( "  %s", pt->desc );
+    //  printf( "  %s", pt->desc );
+    //Extra credit
+    char currentWord[ MAX_DESC_LENGTH + 1 ] = "";
+    char nextWord[ MAX_DESC_LENGTH + 1 ] = "";
+    for ( int i = 0; currentWord[ i ]; i++ ) {
+        currentWord[ i ] = '\0';
+    }
+    for ( int i = 0; nextWord[ i ]; i++ ) {
+        nextWord[ i ] = '\0';
+    }
+    int currentNum = 0;
+    int nextWordNum = 0;
+    int currentWordIndex = 0;
+    bool firstWordPrinted = false;
+    bool wordFound = false;
+    for ( int i = 0; pt->desc[ i ]; i++ ) {
+        if ( !wordFound ) {
+            if ( pt->desc[ i ] != ' ' ) {
+                currentWord[ currentWordIndex ] = pt->desc[ i ];
+                currentNum++;
+                currentWordIndex++;
+            } else {
+                wordFound = true;
+                //Preserve whitespace
+                while ( pt->desc[ i ] == ' ' ) {
+                    currentWord[ currentWordIndex ] = pt->desc[ i ];
+                    currentNum++;
+                    i++;
+                    currentWordIndex++;
+                }
+                currentWord[ currentWordIndex ] = '\0';
+                //Make sure we decrement i here so that we
+                //can read the next non-whitespace character
+                //again.
+                i--;
+            }
+        } else {
+            if ( currentNum < MAX_CHAR ) {
+                int currentIndex = i;
+                int nextWordIndex = 0;
+                while ( pt->desc[ currentIndex ] != ' ' && pt->desc[ currentIndex ] != '\0' ) {
+                    nextWord[ nextWordIndex ] = pt->desc[ currentIndex ];
+                    currentIndex++;
+                    nextWordIndex++;
+                    nextWordNum++;
+                }
+                nextWord[ currentIndex ] = '\0';
+                if ( currentNum + nextWordNum > MAX_CHAR ) {
+                    if ( !firstWordPrinted ) {
+                        printf( "  " );
+                    }
+                    for ( int j = 0; currentWord[ j ] != '\0' && currentWord[ j ] != ' '; j++ ) {
+                        printf( "%c", currentWord[ j ] );
+                    }
+                    printf( "\n" );
+                    firstWordPrinted = false;
+                    currentNum = 0;
+                } else {
+                    if ( !firstWordPrinted ) {
+                        printf( "  " );
+                        firstWordPrinted = true;
+                    }
+                    printf( "%s", currentWord );
+                }
+            } else {
+                //If we get to this point, that means the current word is
+                //already too long, but we print it in one line anyway.
+                if ( !firstWordPrinted ) {
+                    printf( "  " );
+                }
+                for ( int j = 0; currentWord[ j ] != '\0' && currentWord[ j ] != ' '; j++ ) {
+                    printf( "%c", currentWord[ j ] );
+                }
+                printf( "\n" );
+                currentNum = 0;
+                firstWordPrinted = false;
+            }
+            wordFound = false;
+            nextWordNum = 0;
+            //Reset currentWord and nextWord array
+            for ( int j = 0; currentWord[ j ]; j++ ) {
+                currentWord[ j ] = '\0';
+            }
+            for ( int j = 0; nextWord[ j ]; j++ ) {
+                nextWord[ j ] = '\0';
+            }
+            currentWordIndex = 0;
+            i--;
+        }
+    }
+    if ( !firstWordPrinted ) {
+        printf( "  " );
+    }
+    printf( "%s", currentWord );
 }
 
 double globalDistance( Coords const *c1, Coords const *c2 )
