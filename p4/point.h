@@ -67,7 +67,9 @@ void freePoint( Point *pt );
  * to output will consist of the name of the Point and the distance
  * from the user's current location to the Point, in miles, separated
  * by a whitespace. The next line consists of the Point's description,
- * indented by two whitespaces.
+ * indented by two whitespaces. If the description is long, then the
+ * function will break the description into one or more lines of text,
+ * if needed.
  *
  * @param pt the pointer to the Point struct
  * @param ref the pointer to the user's current location
