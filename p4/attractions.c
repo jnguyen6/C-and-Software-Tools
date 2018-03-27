@@ -91,8 +91,8 @@ static bool nearby( Point const *pt, void *data )
  * description that contains the given word or false otherwise.
  *
  * @param pt the pointer to the Point
- * @param data the pointer to the data value, which is the word to
- * match the word in the Point's description
+ * @param data the pointer to the data value, which is the word used
+ * to match a word in the Point's description
  * @return true if the given Point's description contains the given
  * word or false otherwise
  */
@@ -364,6 +364,8 @@ void executeQuitCommand( PointList *ptlist )
  * reports that the provided command is invalid, and the user is
  * prompted again to provide a valid input. Returns 0 if quit is read
  * from user input.
+ *
+ * @return the program's exit status
  */
 int main( )
 {

@@ -32,7 +32,8 @@
 #define MAX_LON_VAL 180
 /** The number of valid input arguments that can be scanned. */
 #define MAX_NUM_VALID_ARGUMENTS 4
-/** The maximum number of characters that can be printed for
+/** 
+ * The maximum number of characters that can be printed for
  * a description on a single line.
  */
 #define MAX_CHAR 75
@@ -93,6 +94,7 @@ void reportPoint( Point const *pt, Coords const *ref )
     double distance = globalDistance( &pt->location, ref );
     printf( "\n%s (%.1f miles)\n", pt->name, distance );
     //  printf( "  %s", pt->desc );
+    
     //Extra credit
     char currentWord[ MAX_DESC_LENGTH + 1 ] = "";
     char nextWord[ MAX_DESC_LENGTH + 1 ] = "";
