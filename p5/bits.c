@@ -60,13 +60,15 @@ int readBit( BitBuffer *buffer, FILE *fp )
 {
     //If there are no more bits in the buffer, and we've reached EOF,
     //return -1
-    if ( buffer->bcount == 0 && feof( fp ) ) {
-        return -1;
-    }
+//     if ( buffer->bcount == 0 && feof( fp ) ) {
+//         return -1;
+//     }
     //If the buffer is empty, fill the buffer with up to 8 bits
     if ( buffer->bcount == 0 ) {
         buffer->bits = 0x00;
-        fscanf( fp, "%c", &buffer->bits );
+        if ( fscanf( fp, "%c", &buffer->bits ) == EOF ) {
+            return -1;
+        }
         buffer->bcount = BITS_PER_BYTE;
     }
     int bit;
