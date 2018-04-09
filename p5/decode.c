@@ -41,7 +41,7 @@
  * the correct bit characters, then an error message is displayed, and the
  * function exits with a status of 1. If the given code file is invalid,
  * then an error message is displayed, and the function exits with a status
- * of 1. If the given code, input, and/or output files cannot be opened, 
+ * of 1. If the given code, input, and/or output files cannot be opened,
  * then an error message is displayed, and the function exits with a status
  * of 1. Otherwise, the bits would be successfully converted to ASCII
  * characters or EOF and printed to an output file, and the function will
@@ -108,7 +108,7 @@ int main( int argc, char *argv[] )
             codeForCmp[ index ] = '0';
         }
         chInt = codeToSym( codeForCmp );
-        if ( chInt != -2 && chInt != -1 ) {
+        if ( chInt != ERR_NUM && chInt != -1 ) {
             matchFound = true;
             ch = chInt;
             fprintf( output, "%c", ch );
@@ -117,7 +117,7 @@ int main( int argc, char *argv[] )
             }
             index = -1;
         }
-        if ( chInt == -2 ) {
+        if ( chInt == ERR_NUM ) {
             matchFound = false;
         } else {
             matchFound = true;

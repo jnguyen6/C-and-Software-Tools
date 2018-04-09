@@ -14,9 +14,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-/** The error number that is returned in the codeToSym function. */
-#define ERR_NUM -2
-
 /** The global variable that represents the pointer to the code list struct. */
 static CodeList *cptr;
 

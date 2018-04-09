@@ -23,6 +23,12 @@
 /** The maximum number of 0 or 1 characters a bit sequence can have. */
 #define MAX_NUM_BITS 12
 
+/** 
+ * The error number that is returned in the codeToSym function when
+ * a character is not found in the list of code instances.
+ */
+#define ERR_NUM -2
+
 /**
  * The maximum number of characters that can be scanned and stored
  * in a character array.
