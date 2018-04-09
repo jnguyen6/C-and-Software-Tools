@@ -73,7 +73,7 @@ int readBit( BitBuffer *buffer, FILE *fp )
     }
     int bit;
     unsigned char bits = buffer->bits;
-    if ( ( ( bits >> 7 ) ^ 0x01 ) == 0x00 ) {
+    if ( ( ( bits >>  ( BITS_PER_BYTE - 1 ) ) ^ 0x01 ) == 0x00 ) {
         bit = 1;
     } else {
         bit = 0;

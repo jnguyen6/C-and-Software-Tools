@@ -3,7 +3,7 @@
  * input file, converting those bits into ASCII characters or EOF,
  * and writing those converted codes to an output file. The code
  * component is used to help convert the codes read into legal
- * characters, and the bits component is used to help read the 
+ * characters, and the bits component is used to help read the
  * bits from the input file.
  *
  * @file decode.c
@@ -17,11 +17,17 @@
 #include <string.h>
 #include <stdbool.h>
 
-/** 
+/**
  * The maximum number of valid command-line arguments for the
  * decode program.
  */
-#define VALID_NUM_ARGS 3
+#define VALID_NUM_ARGS 4
+/** The index of the code information file from the arguments array. */
+#define CODE_FILE_INDX 1
+/** The index of the input file. */
+#define INPUT_FILE_INDX 2
+/** The index of the output file. */
+#define OUTPUT_FILE_INDX 3
 
 /**
  * The starting point of the program. The main function first reads
@@ -47,25 +53,25 @@
  */
 int main( int argc, char *argv[] )
 {
-    if ( argc != VALID_NUM_ARGS + 1 ) {
+    if ( argc != VALID_NUM_ARGS ) {
         fprintf( stderr, "usage: encode <codes-file> <infile> <outfile>\n" );
         return EXIT_FAILURE;
     }
     
-    FILE *codeFile = fopen( argv[ 1 ], "r" );
+    FILE *codeFile = fopen( argv[ CODE_FILE_INDX ], "r" );
     if ( !codeFile ) {
-        perror( argv[ 1 ] );
+        perror( argv[ CODE_FILE_INDX ] );
         return EXIT_FAILURE;
     }
-    FILE *input = fopen( argv[ 2 ], "rb" );
+    FILE *input = fopen( argv[ INPUT_FILE_INDX ], "rb" );
     if ( !input ) {
-        perror( argv[ 2 ] );
+        perror( argv[ INPUT_FILE_INDX ] );
         fclose( codeFile );
         return EXIT_FAILURE;
     }
-    FILE *output = fopen( argv[ 3 ], "w" );
+    FILE *output = fopen( argv[ OUTPUT_FILE_INDX ], "w" );
     if ( !output ) {
-        perror( argv[ 3 ] );
+        perror( argv[ OUTPUT_FILE_INDX ] );
         fclose( codeFile );
         fclose( input );
         return EXIT_FAILURE;

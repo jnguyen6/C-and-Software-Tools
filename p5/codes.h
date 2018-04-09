@@ -116,5 +116,5 @@ const char * symToCode( int ch );
  * code or -2 if there is no character that represents the given code
  */
 int codeToSym( const char *code );
- 
+
 #endif

@@ -54,7 +54,7 @@ void writeBits( const char *code, BitBuffer *buffer, FILE *fp );
 void flushBits( BitBuffer *buffer, FILE *fp );
 
 
-/** Reads and returns value of the next bit (0 or 1) or -1 if the end of file has been reached. 
+/** Reads and returns value of the next bit (0 or 1) or -1 if the end of file has been reached.
     The given buffer may contain some bits left over from the last read, and if this
     the read has any left-over bits, it should leave them in that buffer.
     @param buffer pointer to storage for left-over from one read call to the
