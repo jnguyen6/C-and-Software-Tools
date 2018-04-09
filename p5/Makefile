@@ -26,3 +26,4 @@ clean:
 	rm -f output.txt
 	rm -f stderr.txt
 	rm -f stdout.txt
+	rm -f encode.bin

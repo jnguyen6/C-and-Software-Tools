@@ -74,6 +74,10 @@ int main( int argc, char *argv[] )
     createCodeList();
     if ( !readCodeFile( codeFile ) ) {
         fprintf( stderr, "Invalid code file\n" );
+        freeCodeList( );
+        fclose( codeFile );
+        fclose( input );
+        fclose( output );
         return EXIT_FAILURE;
     }
     
@@ -116,6 +120,11 @@ int main( int argc, char *argv[] )
     //we have not found the EOF, then the input file is invalid.
     if ( !matchFound ) {
         fprintf( stderr, "Invalid input file\n" );
+        free( buffer );
+        freeCodeList( );
+        fclose( codeFile );
+        fclose( input );
+        fclose( output );
         return EXIT_FAILURE;
     }
     free( buffer );
