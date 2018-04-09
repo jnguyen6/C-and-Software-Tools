@@ -17,18 +17,13 @@
 /** The error number that is returned in the codeToSym function. */
 #define ERR_NUM -2
 
-/**
- * The maximum number of characters that can be scanned and stored
- * in a character array.
- */
-#define MAX_NUM_CHAR 1024
-
 /** The global variable that represents the pointer to the code list struct. */
 static CodeList *cptr;
 
 void createCodeList( )
 {
     CodeList *codelist = (CodeList *) malloc( sizeof( CodeList ) );
+    codelist->num = 0;
     codelist->list = (Code **) malloc( MAX_NUM_CODES * sizeof( Code* ) );
     for ( int i = 0; i < MAX_NUM_CODES; i++ ) {
         codelist->list[ i ] = NULL;
@@ -45,6 +40,7 @@ void freeCodeList( )
             }
             free( cptr->list[ i ] );
         }
+        free( cptr->list );
         free( cptr );
     }
 }
@@ -55,7 +51,7 @@ bool addCode( char *name, char bits[] )
         return false;
     }
     cptr->list[ cptr->num ] = (Code *) malloc( sizeof( Code ) );
-    cptr->list[ cptr->num ]->name = (char *) malloc( sizeof( char ) );
+    cptr->list[ cptr->num ]->name = (char *) malloc( strlen( name ) + 1 * sizeof( char ) );
     strcpy( cptr->list[ cptr->num ]->name, name );
     strcpy( cptr->list[ cptr->num ]->bits, bits );
     cptr->num++;

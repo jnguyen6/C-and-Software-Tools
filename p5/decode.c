@@ -60,11 +60,14 @@ int main( int argc, char *argv[] )
     FILE *input = fopen( argv[ 2 ], "rb" );
     if ( !input ) {
         perror( argv[ 2 ] );
+        fclose( codeFile );
         return EXIT_FAILURE;
     }
     FILE *output = fopen( argv[ 3 ], "w" );
     if ( !output ) {
         perror( argv[ 3 ] );
+        fclose( codeFile );
+        fclose( input );
         return EXIT_FAILURE;
     }
     
@@ -84,13 +87,13 @@ int main( int argc, char *argv[] )
     //Start reading characters and printing them to output file as
     //binary codes
     char ch;
-    int chInt;
+    int chInt = 0;
     BitBuffer *buffer = (BitBuffer *) malloc( sizeof( BitBuffer ) );
     buffer->bits = 0x00;
     buffer->bcount = 0;
     int bit;
     int index = 0;
-    char codeForCmp[ MAX_NUM_BITS + 1 ];
+    char codeForCmp[ MAX_NUM_CHAR ] = "";
     bool matchFound = false;
     while ( ( bit = readBit( buffer, input ) ) != -1 && chInt != -1 ) {
         if ( bit == 1 ) {

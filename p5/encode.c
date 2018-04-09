@@ -61,11 +61,14 @@ int main( int argc, char *argv[] )
     FILE *input = fopen( argv[ 2 ], "r" );
     if ( !input ) {
         perror( argv[ 2 ] );
+        fclose( codeFile );
         return EXIT_FAILURE;
     }
     FILE *output = fopen( argv[ 3 ], "wb" );
     if ( !output ) {
         perror( argv[ 3 ] );
+        fclose( codeFile );
+        fclose( input );
         return EXIT_FAILURE;
     }
     

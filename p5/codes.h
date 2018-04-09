@@ -24,6 +24,12 @@
 #define MAX_NUM_BITS 12
 
 /**
+ * The maximum number of characters that can be scanned and stored
+ * in a character array.
+ */
+#define MAX_NUM_CHAR 1024
+
+/**
  * A struct that represents a prefix code, which consists of a
  * symbol name and a sequence of 0s and 1s.
  */
