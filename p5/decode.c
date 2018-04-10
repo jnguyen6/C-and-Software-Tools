@@ -99,7 +99,7 @@ int main( int argc, char *argv[] )
     buffer->bcount = 0;
     int bit;
     int index = 0;
-    char codeForCmp[ MAX_NUM_CHAR ] = "";
+    char codeForCmp[ MAX_NUM_BITS ] = "";
     bool matchFound = false;
     while ( ( bit = readBit( buffer, input ) ) != -1 && chInt != -1 ) {
         if ( bit == 1 ) {

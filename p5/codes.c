@@ -76,7 +76,7 @@ bool readCodeFile( FILE *fp )
         if ( bits[ 0 ] == '\0' ) {
             return false;
         }
-        if ( fscanf( fp, "*^[\n ]" ) == 1 ) {
+        if ( fscanf( fp, "*^[ \n]" ) == 1 ) {
             return false;
         }
         for ( int i = 0; bits[ i ]; i++ ) {
@@ -90,8 +90,6 @@ bool readCodeFile( FILE *fp )
             return false;
         }
         numCodesAdded++;
-        fscanf( fp, "*^[\n ]*%c", name );
-        
         for ( int i = 0; name[ i ]; i++ ) {
             name[ i ] = '\0';
         }

@@ -21,7 +21,7 @@
 #define MAX_NUM_CODES 29
 
 /** The maximum number of 0 or 1 characters a bit sequence can have. */
-#define MAX_NUM_BITS 12
+#define MAX_NUM_BITS 13
 
 /**
  * The error number that is returned in the codeToSym function when

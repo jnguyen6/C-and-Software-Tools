@@ -1,6 +1,8 @@
 /**
  * Component program that provides functions for writing and
- * reading bits to and from a file.
+ * reading bits to and from a file, one byte at a time, and
+ * buffering bits to be used for reading and writing to and
+ * from a file.
  *
  * @file bits.c
  * @author Jimmy Nguyen (jnguyen6)
@@ -58,11 +60,6 @@ void flushBits( BitBuffer *buffer, FILE *fp )
 
 int readBit( BitBuffer *buffer, FILE *fp )
 {
-    //If there are no more bits in the buffer, and we've reached EOF,
-    //return -1
-//     if ( buffer->bcount == 0 && feof( fp ) ) {
-//         return -1;
-//     }
     //If the buffer is empty, fill the buffer with up to 8 bits
     if ( buffer->bcount == 0 ) {
         buffer->bits = 0x00;
