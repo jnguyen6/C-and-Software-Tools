@@ -57,10 +57,10 @@ bool addCode( char *name, char bits[] )
 
 bool readCodeFile( FILE *fp )
 {
-    char name[ MAX_NUM_CHAR ];
+    char name[ MAX_NUM_CHAR + 1 ];
     char bits[ MAX_NUM_BITS + 1 ];
     int numCodesAdded = 0;
-    while ( fscanf( fp, "%1023s %12s", name, bits ) != EOF ) {
+    while ( fscanf( fp, "%1024s %12s", name, bits ) != EOF ) {
         //First, check if the name is valid
         if ( strlen( name ) != 1 ) {
             if ( strcmp( name, "space" ) != 0 && strcmp( name, "newline" ) != 0
