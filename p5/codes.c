@@ -135,7 +135,7 @@ int codeToSym( const char *code )
             } else if ( strcmp( cptr->list[ i ]->name, "newline" ) == 0 ) {
                 return '\n';
             } else if ( strcmp( cptr->list[ i ]->name, "eof" ) == 0 ) {
-                return -1;
+                return EOF;
             } else {
                 return cptr->list[ i ]->name[ 0 ];
             }

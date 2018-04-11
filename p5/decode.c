@@ -101,14 +101,14 @@ int main( int argc, char *argv[] )
     int index = 0;
     char codeForCmp[ MAX_NUM_CHAR + 1 ] = "";
     bool matchFound = false;
-    while ( ( bit = readBit( buffer, input ) ) != -1 && chInt != -1 ) {
+    while ( ( bit = readBit( buffer, input ) ) != -1 && chInt != EOF ) {
         if ( bit == 1 ) {
             codeForCmp[ index ] = '1';
         } else {
             codeForCmp[ index ] = '0';
         }
         chInt = codeToSym( codeForCmp );
-        if ( chInt != ERR_NUM && chInt != -1 ) {
+        if ( chInt != ERR_NUM && chInt != EOF ) {
             matchFound = true;
             ch = chInt;
             fprintf( output, "%c", ch );
