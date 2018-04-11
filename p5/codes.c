@@ -47,6 +47,14 @@ bool addCode( char *name, char bits[] )
     if ( cptr->num > MAX_NUM_CODES ) {
         return false;
     }
+    for ( int i = 0; i < cptr->num; i++ ) {
+        if ( strcmp( cptr->list[ i ]->name, name ) == 0 ) {
+            return false;
+        }
+        if ( strcmp( cptr->list[ i ]->bits, bits ) == 0 ) {
+            return false;
+        }
+    }
     cptr->list[ cptr->num ] = (Code *) malloc( sizeof( Code ) );
     cptr->list[ cptr->num ]->name = (char *) malloc( strlen( name ) + 1 * sizeof( char ) );
     strcpy( cptr->list[ cptr->num ]->name, name );
