@@ -14,3 +14,4 @@ clean:
 	rm -f regular.o pattern.o parse.o
 	rm -f regular
 	rm -f output.txt
+	rm -f stderr.txt
