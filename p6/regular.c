@@ -49,7 +49,7 @@ void reportMatches( Pattern *pat, char const *pstr, char const *str )
 
   if ( !mflag )
     printf( "No matches\n" );
-  
+
   printf( "\n" );
 }
 
@@ -63,7 +63,7 @@ void reportMatches( Pattern *pat, char const *pstr, char const *str )
 */
 int main( int argc, char *argv[] )
 {
-  
+
   if ( argc < MIN_NUM_ARGS || argc > MAX_NUM_ARGS ) {
     fprintf( stderr, "usage: regular <pattern> [input-file.txt]\n" );
     return EXIT_FAILURE;

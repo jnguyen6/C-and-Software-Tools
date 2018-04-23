@@ -4,7 +4,7 @@
 #include "pattern.h"
 
 /** Parse the given string into Pattern object.
-    
+
     @param str string cntaining a pattern.
     @return pointer to a representation of the pattern.
 ***/

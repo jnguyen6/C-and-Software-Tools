@@ -58,7 +58,7 @@ static void destroySimplePattern( Pattern *pat )
 
 /**
    Type of pattern used to represent a single, ordinary symbol,
-   like 'a' or '5'. 
+   like 'a' or '5'.
 */
 typedef struct {
   // Fields from our superclass.
@@ -150,7 +150,7 @@ static void locateConcatenationPattern( Pattern *pat, const char *str )
   // concatenaton matches.  Check all substrings of the input string.
   for ( int begin = 0; begin <= this->len; begin++ )
     for ( int end = begin; end <= this->len; end++ ) {
-      
+    
       // For the [ begin, end ) range, check all places where it could
       // be split into two substrings, the first matching p1 and the second
       // matching p2.
@@ -491,7 +491,7 @@ static void locateRepetitionPattern( Pattern *pat, char const *str )
 //           }
       }
     }
-  } 
+  }
 }
 
 // Documented in header.
@@ -506,5 +506,3 @@ Pattern *makeRepetitionPattern( Pattern *pat, char rpat )
   
   return (Pattern *) this;
 }
-
-

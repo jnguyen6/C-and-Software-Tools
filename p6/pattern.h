@@ -9,7 +9,7 @@
 /** A short name to use for the Pattern interface. */
 typedef struct PatternStruct Pattern;
 
-/** 
+/**
   Structure used as a superclass/interface for a regular expression
   pattern.  It includes a representation for a resizable 2D table
   where we can record regions (substrings) of an input string that are
@@ -61,7 +61,7 @@ struct PatternStruct {
  */
 bool matches( Pattern *pat, int begin, int end );
 
-/** 
+/**
   Make a pattern for a single, non-special character, like `a` or `5`.
 
   @param sym The symbol this pattern is supposed to match.
@@ -69,7 +69,7 @@ bool matches( Pattern *pat, int begin, int end );
 */
 Pattern *makeSymbolPattern( char sym );
 
-/** 
+/**
   Make a pattern for the concatenation of patterns p1 and p2.  It
   should match anything that can be broken into two substrings, s1 and
   s2, where the p1 matches the first part (s1) and p2 matches the
@@ -82,7 +82,7 @@ Pattern *makeSymbolPattern( char sym );
 Pattern *makeConcatenationPattern( Pattern *p1, Pattern *p2 );
 
 /**
- * Make a pattern for a metacharacter, which are special characters like 
+ * Make a pattern for a metacharacter, which are special characters like
  * '.', '$', and '^'.
  *
  * @param metachar the metacharacter pattern

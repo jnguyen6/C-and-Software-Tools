@@ -78,7 +78,7 @@ static Pattern *parseAtomicPattern( char const *str, int *pos )
   
   //Parentheses
   if ( strchr( "(", str[ *pos ] ) ) {
-    char subpat[ strlen( str ) + 2 ];
+    char subpat[ strlen( str ) + 1 ];
     for ( int i = 0; i < strlen( str ); i++ ) {
       subpat[ i ] = '\0';
     }
@@ -102,7 +102,7 @@ static Pattern *parseAtomicPattern( char const *str, int *pos )
       return parsePattern( subpat );
     }
   }
-    
+
   invalidPattern();
   return NULL; // Just to make the compiler happy.
 }
@@ -200,4 +200,3 @@ Pattern *parsePattern( char const *str )
 
   return pat;
 }
-
