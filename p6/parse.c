@@ -1,3 +1,13 @@
+/**
+ * Component program that provides functions for parsing
+ * the given string that represents a regular expression
+ * into a collection (tree) of Pattern objects.
+ * 
+ * @file parse.c
+ * @author Jimmy Nguyen (jnguyen6)
+ * @author David Sturgill (dbsturgi)
+ */
+
 #include "parse.h"
 #include <string.h>
 #include <stdio.h>

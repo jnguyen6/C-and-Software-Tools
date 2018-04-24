@@ -1,13 +1,27 @@
+/**
+ * Component program that performs the following operations:
+ * handle command-line arguments, parse the pattern given
+ * as a command-line argument and create a regular expression
+ * out of that pattern, read input lines and pinpoint where
+ * the pattern matches the input line, and print out lines
+ * where the match occurred, in which the matches are highlighted
+ * in red.
+ *
+ * @file regular.c
+ * @author Jimmy Nguyen (jnguyen6)
+ * @author David Sturgill (dbsturgi)
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "pattern.h"
 #include "parse.h"
 
-// On the command line, which argument is the pattern.
+/** On the command line, which argument is the pattern. */
 #define PAT_ARG 1
 
-// On the command line, which argument is the input file.
+/** On the command line, which argument is the input file. */
 #define FILE_ARG 2
 
 /** The minimum number of valid arguments. */
@@ -19,39 +33,8 @@
 /** The maximum number of characters that can be read from input. */
 #define MAX_INPUT_LEN 100
 
-// You won't need this function in the final version of your program.
-// It prints out the input string and all matches of the pattern inside
-// it.
-void reportMatches( Pattern *pat, char const *pstr, char const *str )
-{
-  // Report the original string and copies of all the matches.
-  printf( "Pattern: %s\n", pstr );
-  printf( "String:  %s\n", str );
-
-  int len = strlen( str );
-  bool mflag = false;
-  for ( int begin = 0; begin <= len; begin++ )
-    for ( int end = begin; end <= len; end++ )
-      if ( matches( pat, begin, end ) ) {
-        // Report the matching substring.
-        
-        // Skip over to the start of the match.
-        printf( "Match:   %*s", begin, "" );
-        
-        // Print the matchng string.
-        for ( int k = begin; k < end; k++ )
-          printf( "%c", str[ k ] );
-        printf( "\n" );
-
-        // Remember that we found a match.
-        mflag = true;
-      }
-
-  if ( !mflag )
-    printf( "No matches\n" );
-
-  printf( "\n" );
-}
+/** The ASCII value that represents an escape sequence. */
+#define ASCII_ESC 27
 
 /**
    Entry point for the program, parses command-line arguments, builds
@@ -106,7 +89,7 @@ int main( int argc, char *argv[] )
         for ( int j = i; j <= pat->len; j++ ) {
           if ( matches( pat, i, j ) ) {
             if ( !redTextOn ) {
-              printf( "%c%c%c%c%c", 27, '[', '3', '1', 'm' );
+              printf( "%c%c%c%c%c", ASCII_ESC, '[', '3', '1', 'm' );
               redTextOn = true;
             }
             foundMatch = true;
@@ -117,7 +100,7 @@ int main( int argc, char *argv[] )
               }
               i = begin;
               j = i;
-              printf( "%c%c%c%c", 27, '[', '0', 'm' );
+              printf( "%c%c%c%c", ASCII_ESC, '[', '0', 'm' );
               redTextOn = false;
             }
           } else {
@@ -131,7 +114,7 @@ int main( int argc, char *argv[] )
               foundMatch = false;
             }
             if ( redTextOn ) {
-              printf( "%c%c%c%c", 27, '[', '0', 'm' );
+              printf( "%c%c%c%c", ASCII_ESC, '[', '0', 'm' );
               redTextOn = false;
             }
           }

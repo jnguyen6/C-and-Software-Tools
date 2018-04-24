@@ -1,3 +1,15 @@
+/**
+ * Header file for the pattern.c component that provides
+ * prototype functions for making specific sub patterns and
+ * reporting the values (true or false) of the match table
+ * for the given pattern. The header file also provides a
+ * struct that represents the superclass of patterns.
+ *
+ * @file pattern.h
+ * @author Jimmy Nguyen (jnguyen6)
+ * @author David Sturgill (dbsturgi)
+ */
+
 #ifndef PATTERN_H
 #define PATTERN_H
 
@@ -82,8 +94,8 @@ Pattern *makeSymbolPattern( char sym );
 Pattern *makeConcatenationPattern( Pattern *p1, Pattern *p2 );
 
 /**
- * Make a pattern for a metacharacter, which are special characters like
- * '.', '$', and '^'.
+ * Make a pattern for a metacharacter. The metacharacter that will be
+ * supported includes special characters like '.', '$', and '^'.
  *
  * @param metachar the metacharacter pattern
  * @return a dynamically allocated representation for this new pattern
@@ -94,7 +106,7 @@ Pattern *makeMetacharPattern( char metachar );
  * Make a pattern for a character class. The character class consists of
  * a sequence of characters that are inside square brackets (Ex. [abc] ).
  * The pattern should match any single occurrence of a character from a
- * given substring.
+ * given substring that is in the character class.
  *
  * @param str the string that represents the character class pattern
  * @return a dynamically allocated representation for this new pattern
@@ -112,9 +124,10 @@ Pattern *makeCharClassPattern( char *str );
 Pattern *makeAlternationPattern( Pattern *p1, Pattern *p2 );
 
 /**
- * Make a pattern for the repetition of a pattern. This pattern should
- * match 0, 1, or possibly multiple occurrences of a given string to match,
- * depending on the repetition pattern.
+ * Make a pattern for the repetition of a preceding pattern. This pattern
+ * should match 0, 1, or possibly multiple occurrences of a given string to
+ * match, depending on the repetition pattern. The repetition pattern that
+ * will be supported includes '*', '+', and '?'.
  *
  * @param pat the pointer to the pattern being matched
  * @param rpat the repetition pattern as a single character

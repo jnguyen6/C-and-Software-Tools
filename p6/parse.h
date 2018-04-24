@@ -1,3 +1,13 @@
+/**
+ * Header file that provides a prototype function
+ * for parsing the given string into a specific
+ * Pattern object.
+ *
+ * @file parse.h
+ * @author Jimmy Nguyen (jnguyen6)
+ * @author David Sturgill (dbsturgi)
+ */
+
 #ifndef PARSE_H
 #define PARSE_H
 

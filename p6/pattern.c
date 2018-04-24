@@ -1,3 +1,19 @@
+/**
+ * Component program that implements the inheritance
+ * hierarchy used for interpreting regular expressions.
+ * This program provides structs that represents the
+ * subclasses/sub patterns of the Pattern superclass.
+ * This program also provides the following functions:
+ * initializing and freeing the match table, creating
+ * and destroying sub patterns, finding values (true or false)
+ * of the match table for the given pattern, and matching
+ * sub patterns with the given string.
+ *
+ * @file pattern.c
+ * @author Jimmy Nguyen (jnguyen6)
+ * @author David Sturgill (dbsturgi)
+ */
+
 #include "pattern.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -485,10 +501,6 @@ static void locateRepetitionPattern( Pattern *pat, char const *str )
         } else if ( begin == end ) {
           this->table[ begin ][ end ] = true;
         }
-        // else {
-//           if ( str[ begin ] && str[ begin ] != str[ end - 1 ] ) {
-//             this->table[ begin ][ end ] = true;
-//           }
       }
     }
   }
