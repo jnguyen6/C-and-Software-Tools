@@ -105,7 +105,7 @@ Pattern *makeMetacharPattern( char metachar );
 
 /**
  * Method that creates a pattern for a character class. The character class
- * consists of a sequence of characters that are inside square brackets 
+ * consists of a sequence of characters that are inside square brackets
  * (Ex. [abc]).The pattern should match any single occurrence of a character
  * from a given substring that is in the character class.
  *
@@ -128,7 +128,7 @@ Pattern *makeCharClassPattern( char *str );
 Pattern *makeAlternationPattern( Pattern *p1, Pattern *p2 );
 
 /**
- * Method that creates a pattern for the repetition of a preceding pattern. 
+ * Method that creates a pattern for the repetition of a preceding pattern.
  * This pattern should match 0, 1, or possibly multiple occurrences of a given
  * string to match, depending on the repetition pattern. The repetition pattern
  * that will be supported includes '*', '+', and '?'.
