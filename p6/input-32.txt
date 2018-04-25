@@ -1,0 +1,6 @@
+abcDEF
+aBcDeFg
+12345
+apple
+book
+apple123

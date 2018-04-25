@@ -287,11 +287,62 @@ static void locateCharClassPattern( Pattern *pat, char const *str )
   // Make a fresh table for this input string.
   initTable( pat, str );
   
-  for ( int begin = 0; str[ begin ]; begin++ ) {
-    for ( int i = 0; this->cclass[ i ]; i++ ) {
-      if ( str[ begin ] == this->cclass[ i ] ) {
+  //First, check if there is a ^ at the beginning of a character class.
+  bool inverted = false;
+  if ( this->cclass[ 0 ] == '^' && strlen( this->cclass ) != 1 ) {
+    inverted = true;
+  }
+  
+  if ( !inverted ) {
+    for ( int begin = 0; str[ begin ]; begin++ ) {
+      for ( int i = 0; this->cclass[ i ]; i++ ) {
+        if ( str[ begin ] == this->cclass[ i ] ) {
+          if ( str[ begin ] == '-' && this->cclass[ i ] == '-' ) {
+            if ( !( i - 1 >= 1 && i + 1 <= strlen( this->cclass ) - 1 ) ) {
+              this->table[ begin ][ begin + 1 ] = true;
+              break;
+            }
+          } else {
+            this->table[ begin ][ begin + 1 ] = true;
+            break;
+          }
+        } else if ( this->cclass[ i ] == '-' ) {
+          if ( i - 1 >= 0 && i + 1 <= strlen( this->cclass ) ) {
+            if ( str[ begin ] >= this->cclass[ i - 1 ] 
+                 && str[ begin ] <= this->cclass[ i + 1 ] ) {
+              this->table[ begin ][ begin + 1 ] = true;
+              break;
+            }
+          }
+        }
+      }
+    }
+  } else {
+    for ( int begin = 0; str[ begin ]; begin++ ) {
+      bool foundMatch = false;
+      for ( int i = 1; this->cclass[ i ]; i++ ) {
+        if ( str[ begin ] == this->cclass[ i ] ) {
+          if ( str[ begin ] == '-' && this->cclass[ i ] == '-' ) {
+            if ( this->cclass[ i - 1 ] == '^' ) {
+              foundMatch = true;
+              break;
+            }
+          } else {
+            foundMatch = true;
+            break;
+          }
+        } else if ( this->cclass[ i ] == '-' ) {
+          if ( i - 1 >= 1 && i + 1 <= strlen( this->cclass ) ) {
+            if ( str[ begin ] >= this->cclass[ i - 1 ]
+                 && str[ begin ] <= this->cclass[ i + 1 ] ) {
+              foundMatch = true;
+              break;
+            }
+          }
+        }
+      }
+      if ( !foundMatch ) {
         this->table[ begin ][ begin + 1 ] = true;
-        break;
       }
     }
   }
@@ -415,7 +466,8 @@ typedef struct {
   /** The pointer to the pattern being matched. */
   Pattern *pat;
   /** The character representation of the repetition pattern. */
-  char rpat;
+  //char rpat;
+  char *rpat;
 } RepetitionPattern;
 
 /** Destroy function used for RepetitionPattern. */
@@ -426,6 +478,7 @@ static void destroyRepetitionPattern( Pattern *pat )
 
   freeTable( pat );
   this->pat->destroy( this->pat );
+  free( this->rpat );
   free( this );
 }
 
@@ -444,7 +497,7 @@ static void locateRepetitionPattern( Pattern *pat, char const *str )
   // Make a fresh table for this input string.
   initTable( pat, str );
   
-  if ( this->rpat == '*' ) {
+  if ( this->rpat[ 0 ] == '*' ) {
     this->pat->locate( this->pat, str );
     for ( int begin = 0; begin <= this->len; begin++ ) {
       for ( int end = begin; end <= this->len; end++ ) {
@@ -468,7 +521,7 @@ static void locateRepetitionPattern( Pattern *pat, char const *str )
         }
       }
     }
-  } else if ( this->rpat == '+' ) {
+  } else if ( this->rpat[ 0 ] == '+' ) {
     //SymbolPattern *temp = (SymbolPattern *) this->pat;
     //str[ begin ] == temp->sym
     this->pat->locate( this->pat, str );
@@ -492,7 +545,7 @@ static void locateRepetitionPattern( Pattern *pat, char const *str )
         }
       }
     }
-  } else {
+  } else if ( this->rpat[ 0 ] == '?' ) {
     this->pat->locate( this->pat, str );
     for ( int begin = 0; begin <= this->len; begin++ ) {
       for ( int end = begin; end <= this->len; end++ ) {
@@ -503,18 +556,97 @@ static void locateRepetitionPattern( Pattern *pat, char const *str )
         }
       }
     }
+  } else {
+    this->pat->locate( this->pat, str );
+    //We know the first and last positions of the sequence is a '{'
+    //and a '}', respectively. So, we need to first find the comma
+    //and then check which types of consecutive occurrences to consider.
+    int start;
+    int end;
+    for ( int i = 0; this->rpat[ i ]; i++ ) {
+      if ( this->rpat[ i ] == ',' ) {
+        if ( this->rpat[ i - 1 ] == '{' ) {
+          start = 0;
+        } else {
+          start = (int) this->rpat[ i - 1 ];
+        }
+        if ( this->rpat[ i + 1 ] == '}' ) {
+          //This negative value is used to represent m (infinitely many)
+          //possible occurrences.
+          end = -1;
+        } else {
+          end = (int) this->rpat[ i + 1 ];
+        }
+        break;
+      }
+    }
+    
+    //Once we have got the integer values (start and end), we should
+    //then find any matches and keep track of the number of matches
+    //we've found.
+    int count = 0;
+    for ( int begin = 0; begin <= this->len; begin++ ) {
+      for ( int end = begin; end <= this->len; end++ ) {
+        if ( matches( this->pat, begin, end ) ) {
+            count++;
+        }
+      }
+    }
+    
+    //Now, compare the count to the start and end values. If the count
+    //value is not between the start and end values, then don't iterate
+    //through the match table anymore. Otherwise, iterate through the
+    //table and mark the appropriate location with the appropriate value.
+    bool isValid = false;
+    if ( end == -1 ) {
+      if ( count >= start ) {
+        isValid = true;
+      }
+    } else {
+      if ( count >= start && count <= end ) {
+        isValid = true;
+      }
+    }
+    if ( isValid ) {
+      for ( int begin = 0; begin <= this->len; begin++ ) {
+        for ( int end = begin; end <= this->len; end++ ) {
+          if ( matches( this->pat, begin, end ) ) {
+            this->table[ begin ][ end ] = true;
+            if ( end != this->len && ( matches( this->pat, begin, end )
+                 && matches( this->pat, begin + 1, end + 1 ) ) ) {
+              this->table[ begin ][ end + 1 ] = true;
+            }
+          } else if ( begin == end && start == 0 ) {
+            this->table[ begin ][ end ] = true;
+          }
+        }
+      }
+      for ( int begin = 0; begin <= this->len; begin++ ) {
+        for ( int end = begin; end <= this->len; end++ ) {
+          for ( int k = begin; k <= end; k++ ) {
+            if ( this->table[ begin ][ k ] && this->table[ k ][ end ] ) {
+              this->table[ begin ][ end ] = true;
+            }
+          }
+        }
+      }
+    }
   }
 }
 
 // Documented in header.
-Pattern *makeRepetitionPattern( Pattern *pat, char rpat )
+Pattern *makeRepetitionPattern( Pattern *pat, char *rpat )
 {
   RepetitionPattern *this = (RepetitionPattern *) malloc( sizeof( RepetitionPattern ) );
   this->table = NULL;
   this->locate = locateRepetitionPattern;
   this->destroy = destroyRepetitionPattern;
   this->pat = pat;
-  this->rpat = rpat;
+  this->rpat = (char *) malloc( strlen( rpat ) + 1 );
+  for ( int i = 0; rpat[ i ]; i++ ) {
+    this->rpat[ i ] = rpat[ i ];
+  }
+  //this->rpat = rpat;
   
   return (Pattern *) this;
 }

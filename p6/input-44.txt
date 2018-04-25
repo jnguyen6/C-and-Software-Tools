@@ -1,0 +1,2 @@
+This file doesn't matter.
+The pattern is bad.

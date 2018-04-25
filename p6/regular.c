@@ -30,8 +30,11 @@
 /** The maximum number of valid arguments. */
 #define MAX_NUM_ARGS 3
 
-/** The maximum number of characters that can be read from input. */
-#define MAX_INPUT_LEN 100
+/** 
+ * The maximum number of characters that can be read from input,
+ * including the new line character. 
+ */
+#define MAX_INPUT_LEN 101
 
 /** The ASCII value that represents an escape sequence. */
 #define ASCII_ESC 27
@@ -65,11 +68,19 @@ int main( int argc, char *argv[] )
   
   Pattern *pat = parsePattern( argv[ PAT_ARG ] );
   char input[ MAX_INPUT_LEN + 1 ] = "";
-  while ( fscanf( infile, "%100[^\n]", input ) != EOF ) {
-    if ( fscanf( infile, "%[^\n]", input ) == 1 ) {
+//   while ( fscanf( infile, "%100[^\n]", input ) != EOF ) {
+//     if ( fscanf( infile, "%[^\n]", input ) == 1 ) {
+//       fprintf( stderr, "Input line too long\n" );
+//       return EXIT_FAILURE;
+//     }
+  while ( fgets( input, MAX_INPUT_LEN, infile ) ) {
+    if ( input[ strlen( input ) - 1 ] != '\n' ) {
       fprintf( stderr, "Input line too long\n" );
       return EXIT_FAILURE;
     }
+    
+    input[ strlen( input ) - 1 ] = '\0';
+    
     pat->locate( pat, input );
     
     //First, check if we have found a match or not
@@ -88,20 +99,27 @@ int main( int argc, char *argv[] )
       for ( int i = 0; i <= pat->len; i++ ) {
         for ( int j = i; j <= pat->len; j++ ) {
           if ( matches( pat, i, j ) ) {
-            if ( !redTextOn ) {
-              printf( "%c%c%c%c%c", ASCII_ESC, '[', '3', '1', 'm' );
-              redTextOn = true;
-            }
-            foundMatch = true;
-            if ( j == pat->len ) {
-              int begin;
-              for ( begin = i; begin < j ; begin++ ) {
-                printf( "%c", input[ begin ] );
+          //Special case: if we have found a match, but that match is a new line
+          //character (empty line). If there happens to be an empty line, do not
+          //"highlight" that line.
+            if ( pat->len == 0 ) {
+              break;
+            } else {
+              if ( !redTextOn ) {
+                printf( "%c%c%c%c%c", ASCII_ESC, '[', '3', '1', 'm' );
+                redTextOn = true;
               }
-              i = begin;
-              j = i;
-              printf( "%c%c%c%c", ASCII_ESC, '[', '0', 'm' );
-              redTextOn = false;
+              foundMatch = true;
+              if ( j == pat->len ) {
+                int begin;
+                for ( begin = i; begin < j ; begin++ ) {
+                  printf( "%c", input[ begin ] );
+                }
+                i = begin;
+                j = i;
+                printf( "%c%c%c%c", ASCII_ESC, '[', '0', 'm' );
+                redTextOn = false;
+              }
             }
           } else {
             if ( foundMatch ) {
@@ -114,8 +132,8 @@ int main( int argc, char *argv[] )
               foundMatch = false;
             }
             if ( redTextOn ) {
-              printf( "%c%c%c%c", ASCII_ESC, '[', '0', 'm' );
-              redTextOn = false;
+                printf( "%c%c%c%c", ASCII_ESC, '[', '0', 'm' );
+                redTextOn = false;
             }
           }
         }
@@ -125,7 +143,7 @@ int main( int argc, char *argv[] )
       }
       printf( "\n" );
     }
-    fscanf( infile, "%*[\n]" );
+    //fscanf( infile, "%*c" );
     for ( int i = 0; input[ i ]; i++ ) {
       input[ i ] = '\0';
     }

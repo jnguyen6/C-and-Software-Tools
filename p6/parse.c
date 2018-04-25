@@ -76,6 +76,15 @@ static Pattern *parseAtomicPattern( char const *str, int *pos )
         (*pos)++;
         break;
       } else {
+        if ( str[ *pos ] == '-' ) {
+          if ( *pos - 1 >= 1 && ( *pos + 1 <= strlen( str ) - 1
+                 && str[ *pos + 1 ] != ']' ) ) {
+            if ( str[ *pos - 1 ] > str[ *pos + 1 ] ) {
+              validCClass = false;
+              break;
+            }
+          }
+        }
         cclass[ index++ ] = str[ (*pos)++ ];
         foundPattern = true;
       }
@@ -132,16 +141,78 @@ static Pattern *parseRepetition( char const *str, int *pos )
 {
   Pattern *p = parseAtomicPattern( str, pos );
 
-  while ( str[ *pos ] == '*' || str[ *pos ] == '+' || str[ *pos ] == '?' ) {
+  while ( str[ *pos ] == '*' || str[ *pos ] == '+' 
+            || str[ *pos ] == '?' || str[ *pos ] == '{' ) {
     if ( str[ *pos ] == '*' ) {
-      p = makeRepetitionPattern( p, '*' );
+      p = makeRepetitionPattern( p, "*" );
       (*pos)++;
     } else if ( str[ *pos ] == '+' ) {
-      p = makeRepetitionPattern( p, '+' );
+      p = makeRepetitionPattern( p, "+" );
       (*pos)++;
     } else if ( str[ *pos ] == '?' ) {
-      p = makeRepetitionPattern( p, '?' );
+      p = makeRepetitionPattern( p, "?" );
       (*pos)++;
+    } else if ( str[ *pos ] == '{' ) {
+      char sequence[ strlen( str ) + 1 ];
+      int seqidx = 0;
+      int firstNum;
+      int secondNum;
+      bool foundComma = false;
+      bool validSequence = false;
+      bool firstNumFound = false;
+      char num[ strlen( str ) + 1 ];
+      int numidx = 0;
+      sequence[ seqidx++ ] = '{';
+      (*pos)++;
+      while ( str[ *pos ] ) {
+        if ( str[ *pos ] == '}' && foundComma ) {
+          if ( str[ *pos - 1 ] != ',' ) {
+            secondNum = atoi( num );
+            sequence[ seqidx++ ] = (char) secondNum;
+            if ( firstNumFound ) {
+              //If the first number is greater than the second,
+              //then this pattern is invalid.
+              if ( firstNum > secondNum ) {
+                break;
+              }
+            }
+          }
+          sequence[ seqidx++ ] = '}';
+          validSequence = true;
+          (*pos)++;
+          break;
+        } else if ( str[ *pos ] < '0' || str[ *pos ] > '9' ) {
+          //If we have reached a comma, set comma flag to true, and convert
+          //number to an int
+          if ( str[ *pos ] == ',' ) {
+            foundComma = true;
+            if ( str[ *pos - 1 ] != '{' ) {
+              firstNum = atoi( num );
+              sequence[ seqidx++ ] = (char) firstNum;
+              for ( int i = 0; i < strlen( str ); i++ ) {
+                num[ i ] = '\0';
+              }
+              num[ strlen( str ) ] = '\0';
+              numidx = 0;
+              firstNumFound = true;
+            }
+            sequence[ seqidx++ ] = ',';
+            (*pos)++;
+          } else {
+            validSequence = false;
+            break;
+          }
+        } else {
+          num[ numidx++ ] = str[ (*pos)++ ];
+        }
+      }
+      sequence[ seqidx ] = '\0';
+      if ( validSequence ) {
+        p = makeRepetitionPattern( p, sequence );
+        break;
+      } else {
+        invalidPattern();
+      }
     }
   }
   return p;

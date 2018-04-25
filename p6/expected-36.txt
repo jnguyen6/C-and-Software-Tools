@@ -1,0 +1,1 @@
+[31manything but that one symbol will match[0m

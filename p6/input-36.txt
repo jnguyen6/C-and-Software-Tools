@@ -1,0 +1,2 @@
+^^^^^^^^
+anything but that one symbol will match

@@ -1,0 +1,4 @@
+[31mabcDEF[0m
+[31maBcDeFg[0m
+[31mapple[0m
+[31mbook[0m
