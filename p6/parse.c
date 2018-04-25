@@ -141,7 +141,7 @@ static Pattern *parseRepetition( char const *str, int *pos )
 {
   Pattern *p = parseAtomicPattern( str, pos );
 
-  while ( str[ *pos ] == '*' || str[ *pos ] == '+' 
+  while ( str[ *pos ] == '*' || str[ *pos ] == '+'
             || str[ *pos ] == '?' || str[ *pos ] == '{' ) {
     if ( str[ *pos ] == '*' ) {
       p = makeRepetitionPattern( p, "*" );

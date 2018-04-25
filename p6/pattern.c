@@ -308,7 +308,7 @@ static void locateCharClassPattern( Pattern *pat, char const *str )
           }
         } else if ( this->cclass[ i ] == '-' ) {
           if ( i - 1 >= 0 && i + 1 <= strlen( this->cclass ) ) {
-            if ( str[ begin ] >= this->cclass[ i - 1 ] 
+            if ( str[ begin ] >= this->cclass[ i - 1 ]
                  && str[ begin ] <= this->cclass[ i + 1 ] ) {
               this->table[ begin ][ begin + 1 ] = true;
               break;

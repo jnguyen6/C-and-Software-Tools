@@ -30,9 +30,9 @@
 /** The maximum number of valid arguments. */
 #define MAX_NUM_ARGS 3
 
-/** 
+/**
  * The maximum number of characters that can be read from input,
- * including the new line character. 
+ * including the new line character.
  */
 #define MAX_INPUT_LEN 101
 
