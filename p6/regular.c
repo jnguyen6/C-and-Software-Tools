@@ -4,7 +4,7 @@
  * as a command-line argument and create a regular expression
  * out of that pattern, read input lines and pinpoint where
  * the pattern matches the input line, and print out lines
- * where the match occurred, in which the matches are highlighted
+ * where the match occurred. Any matches found are highlighted
  * in red.
  *
  * @file regular.c

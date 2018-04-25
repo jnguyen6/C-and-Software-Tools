@@ -205,9 +205,9 @@ typedef struct {
 } MetacharPattern;
 
 /**
- * Overridden locate() method for a MetacharPattern. This
- * method finds a single occurrence of a character that corresponds
- * with the metacharacter pattern.
+ * Method that finds a single occurrence of a character that corresponds
+ * with the metacharacter pattern. This method is an overridden locate()
+ * method for the MetacharPattern.
  *
  * @param pat the metacharacter pattern
  * @param str the string to find a match for
@@ -258,7 +258,7 @@ typedef struct {
   char *cclass;
 } CharClassPattern;
 
-/** Destroy function used for CharacterClassPattern. */
+/** The overridden destroy() function used for CharacterClassPattern. */
 static void destroyCharClassPattern( Pattern *pat )
 {
   CharClassPattern *this = (CharClassPattern *) pat;
@@ -272,9 +272,9 @@ static void destroyCharClassPattern( Pattern *pat )
 }
 
 /**
- * Overridden locate() method for a CharClassPattern. This
- * method finds a single occurrence of a character that corresponds
- * any character from the character class.
+ * Method that finds a single occurrence of a character that corresponds
+ * any character from the character class. This method is an overridden
+ * locate() method for the CharClassPattern.
  *
  * @param pat the character class pattern
  * @param str the string to find a match for
@@ -376,7 +376,7 @@ typedef struct {
   Pattern *p1, *p2;
 } AlternationPattern;
 
-/** Destroy function used for AlternationPattern. */
+/** The overridden destroy() function used for AlternationPattern. */
 static void destroyAlternationPattern( Pattern *pat )
 {
   // Cast down to the struct type pat really points to.
@@ -392,9 +392,9 @@ static void destroyAlternationPattern( Pattern *pat )
 }
 
 /**
- * Overridden locate() method for an AlternationPattern. This
- * method finds a match for a given string based on the two
- * pattern types that the AlternationPattern supports.
+ * Method that finds a match for a given string based on the two
+ * pattern types that the AlternationPattern supports. This method
+ * is an overridden locate() method for the AlternationPattern.
  *
  * @param pat the alternation pattern
  * @param str the string to find a match for
@@ -469,7 +469,7 @@ typedef struct {
   char *rpat;
 } RepetitionPattern;
 
-/** Destroy function used for RepetitionPattern. */
+/** The overridden destroy() function used for RepetitionPattern. */
 static void destroyRepetitionPattern( Pattern *pat )
 {
   // Cast down to the struct type pat really points to.
@@ -482,9 +482,10 @@ static void destroyRepetitionPattern( Pattern *pat )
 }
 
 /**
- * Overridden locate() method for a RepetitionPattern. This
- * method finds 0, 1, or multiple occurrences of a character
+ * Method finds 0, 1, or multiple occurrences of a character
  * from the given string, depending on the repetition pattern.
+ * This method is an overridden locate() method for the
+ * RepetitionPattern.
  *
  * @param pat the repetition pattern
  * @param str the string to find a match for

@@ -94,45 +94,49 @@ Pattern *makeSymbolPattern( char sym );
 Pattern *makeConcatenationPattern( Pattern *p1, Pattern *p2 );
 
 /**
- * Make a pattern for a metacharacter. The metacharacter that will be
- * supported includes special characters like '.', '$', and '^'.
+ * Method that creates a metacharacter pattern. The metacharacter that
+ * will be supported includes special characters like '.', '$', and '^'.
  *
  * @param metachar the metacharacter pattern
- * @return a dynamically allocated representation for this new pattern
+ * @return a dynamically allocated representation for the metacharacter
+ * pattern
  */
 Pattern *makeMetacharPattern( char metachar );
 
 /**
- * Make a pattern for a character class. The character class consists of
- * a sequence of characters that are inside square brackets (Ex. [abc] ).
- * The pattern should match any single occurrence of a character from a
- * given substring that is in the character class.
+ * Method that creates a pattern for a character class. The character class
+ * consists of a sequence of characters that are inside square brackets 
+ * (Ex. [abc]).The pattern should match any single occurrence of a character
+ * from a given substring that is in the character class.
  *
  * @param str the string that represents the character class pattern
- * @return a dynamically allocated representation for this new pattern
+ * @return a dynamically allocated representation for the character class
+ * pattern
  */
 Pattern *makeCharClassPattern( char *str );
 
 /**
- * Make a pattern for the alternation between two pattern types. This pattern
- * should match anything that matches with either one of the two pattern types.
+ * Method that creates a pattern for the alternation between two pattern types.
+ * This pattern should match anything that matches with either one of the two
+ * pattern types.
  *
  * @param p1 the subpattern for matching the first pattern type
  * @param p2 the subpattern for matching the second pattern type
- * @return a dynamically allocated representation for this new pattern
+ * @return a dynamically allocated representation for the alternation
+ * pattern
  */
 Pattern *makeAlternationPattern( Pattern *p1, Pattern *p2 );
 
 /**
- * Make a pattern for the repetition of a preceding pattern. This pattern
- * should match 0, 1, or possibly multiple occurrences of a given string to
- * match, depending on the repetition pattern. The repetition pattern that
- * will be supported includes '*', '+', and '?'.
+ * Method that creates a pattern for the repetition of a preceding pattern. 
+ * This pattern should match 0, 1, or possibly multiple occurrences of a given
+ * string to match, depending on the repetition pattern. The repetition pattern
+ * that will be supported includes '*', '+', and '?'.
  *
  * @param pat the pointer to the pattern being matched
  * @param rpat the pointer to the repetition pattern represented
  * as a single character
- * @return a dynamically allocated representation for this new pattern
+ * @return a dynamically allocated representation for the repetition pattern
  */
 Pattern *makeRepetitionPattern( Pattern *pat, char *rpat );
 
