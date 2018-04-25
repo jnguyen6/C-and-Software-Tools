@@ -68,11 +68,6 @@ int main( int argc, char *argv[] )
   
   Pattern *pat = parsePattern( argv[ PAT_ARG ] );
   char input[ MAX_INPUT_LEN + 1 ] = "";
-//   while ( fscanf( infile, "%100[^\n]", input ) != EOF ) {
-//     if ( fscanf( infile, "%[^\n]", input ) == 1 ) {
-//       fprintf( stderr, "Input line too long\n" );
-//       return EXIT_FAILURE;
-//     }
   while ( fgets( input, MAX_INPUT_LEN, infile ) ) {
     if ( input[ strlen( input ) - 1 ] != '\n' ) {
       fprintf( stderr, "Input line too long\n" );
@@ -143,7 +138,6 @@ int main( int argc, char *argv[] )
       }
       printf( "\n" );
     }
-    //fscanf( infile, "%*c" );
     for ( int i = 0; input[ i ]; i++ ) {
       input[ i ] = '\0';
     }

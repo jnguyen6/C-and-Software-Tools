@@ -153,14 +153,23 @@ static Pattern *parseRepetition( char const *str, int *pos )
       p = makeRepetitionPattern( p, "?" );
       (*pos)++;
     } else if ( str[ *pos ] == '{' ) {
-      char sequence[ strlen( str ) + 1 ];
       int seqidx = 0;
       int firstNum;
       int secondNum;
       bool foundComma = false;
       bool validSequence = false;
       bool firstNumFound = false;
+      char sequence[ strlen( str ) + 1 ];
       char num[ strlen( str ) + 1 ];
+      
+      //Initialize both sequence and num character array
+      for ( int i = 0; i < strlen( str ); i++ ) {
+        sequence[ i ] = '\0';
+        num[ i ] = '\0';
+      }
+      sequence[ strlen( str ) ] = '\0';
+      num[ strlen( str ) ] = '\0';
+      
       int numidx = 0;
       sequence[ seqidx++ ] = '{';
       (*pos)++;

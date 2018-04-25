@@ -3,7 +3,7 @@
  * prototype functions for making specific sub patterns and
  * reporting the values (true or false) of the match table
  * for the given pattern. The header file also provides a
- * struct that represents the superclass of patterns.
+ * struct that represents the superclass for patterns.
  *
  * @file pattern.h
  * @author Jimmy Nguyen (jnguyen6)
@@ -130,7 +130,8 @@ Pattern *makeAlternationPattern( Pattern *p1, Pattern *p2 );
  * will be supported includes '*', '+', and '?'.
  *
  * @param pat the pointer to the pattern being matched
- * @param rpat the pointer to the repetition pattern as a single character
+ * @param rpat the pointer to the repetition pattern represented
+ * as a single character
  * @return a dynamically allocated representation for this new pattern
  */
 Pattern *makeRepetitionPattern( Pattern *pat, char *rpat );

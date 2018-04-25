@@ -466,7 +466,6 @@ typedef struct {
   /** The pointer to the pattern being matched. */
   Pattern *pat;
   /** The character representation of the repetition pattern. */
-  //char rpat;
   char *rpat;
 } RepetitionPattern;
 
@@ -646,7 +645,6 @@ Pattern *makeRepetitionPattern( Pattern *pat, char *rpat )
   for ( int i = 0; rpat[ i ]; i++ ) {
     this->rpat[ i ] = rpat[ i ];
   }
-  //this->rpat = rpat;
   
   return (Pattern *) this;
 }
